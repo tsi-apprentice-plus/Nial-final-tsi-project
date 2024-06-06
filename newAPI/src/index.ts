@@ -9,11 +9,13 @@ import loggerMiddleware from "./middlewares/logger";
 import { create } from "domain";
 import http from 'http';
 import { env } from "process";
+import cors from 'cors';
 
 // const app = express();
 const port = 3101;
 
 app.use(express.json());
+app.use(cors());
 app.use(loggerMiddleware);
 
 app.use("/posts", postRouter);
