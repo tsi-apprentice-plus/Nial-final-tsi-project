@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { Number, Types } from 'mongoose';
 const BASE_URL = 'http://100.88.40.21:3101';
 
 type auth = {
@@ -44,8 +44,19 @@ export const likePost = async (postId: Types.ObjectId, data:LikePost) => {
   return response.json();
 };
 
-export const getPost = async (postId = '') => {
+export const getPosts = async (postId = '') => {
   const response = await fetch(`${BASE_URL}/posts${postId ? `?_id=${postId}` : ''}`);
+  console.log(response);
+  return response.json();
+};
+
+export const getPostsPaged = async (limit:number, page: number) => {
+  const response = await fetch(`${BASE_URL}/posts?limit=${limit}&page=${page}`);
+  return response.json();
+}
+
+export const searchPosts = async (search:string) => {
+  const response = await fetch(`${BASE_URL}/posts?search=${search}`);
   return response.json();
 };
 

@@ -5,8 +5,11 @@ import authenticateUser from "../middlewares/userAuth";
 const postRouter = Router();
 
 const getValidation = [
-  query("userID").optional(), // Add validation for other query parameters as needed
+  query("userID").optional(),
   query("_id").optional().isMongoId().withMessage("Invalid _id format"),
+  query("search").optional(),
+  query("limit").optional().isInt().withMessage("Limit must be an integer"),
+  query("page").optional().isInt().withMessage("Page must be an integer"),
 ];
 // returns all posts, can filter by userID or _id
 postRouter.get("/", getValidation, async (req: Request, res: Response) => {
@@ -21,6 +24,19 @@ postRouter.get("/", getValidation, async (req: Request, res: Response) => {
   if (req.query._id !== undefined) {
     const post = await Post.findOne({ _id: req.query._id });
     return res.json(post);
+  }
+  if (req.query.search !== undefined) {
+    const search = req.query.search;
+    const posts = await Post.find({ content: { $regex: search, $options: "i" } });
+    return res.json(posts);
+  }
+  if (req.query.limit !== undefined && req.query.page !== undefined) {
+    const limit = parseInt(req.query.limit as string);
+    const page = parseInt(req.query.page as string);
+    const posts = await Post.find()
+      .limit(limit)
+      .skip(limit * (page - 1));
+    return res.json(posts);
   }
   const posts = await Post.find();
   return res.json(posts);
