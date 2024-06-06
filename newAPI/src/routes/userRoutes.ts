@@ -30,7 +30,8 @@ userRouter.post("/", PostValidation, async (req: Request, res: Response) => {
   if (emailExists) {
     return res.status(400).json({ message: "email already exists" });
   }
-  const newID = (await User.find({}).sort([["id", "desc"]]))[0].id + 1;
+  const lastUser = await User.findOne({}).sort({ id: -1 });
+  const newID = lastUser ? lastUser.id + 1 : 1;
   console.log("newID: ", newID);
   const user = new User({
     id: newID,
