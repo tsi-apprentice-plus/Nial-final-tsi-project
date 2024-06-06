@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  api:
+    image: ghcr.io/nmcc1212/mongo-api
+    container_name: api
+    ports:
+      - "3101:3101"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/newapi
+      - NODE_OPTIONS=--max_old_space_size=8192
+    command: npm run dev
+
+  mongo:
+    image: mongo
+    container_name: mongo-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
