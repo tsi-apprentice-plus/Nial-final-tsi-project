@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "@ukic/fonts/dist/fonts.css";
+@import "@ukic/react/dist/core/core.css";
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
