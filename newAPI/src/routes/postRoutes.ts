@@ -1,7 +1,8 @@
-import { Router, Response, Request } from "express";
+import { Router, Response, Request, NextFunction } from "express";
 import { body, validationResult, query, param } from "express-validator";
 import Post from "../schemas/postsSchema";
 import authenticateUser from "../middlewares/userAuth";
+import userRouter from "./userRoutes";
 const postRouter = Router();
 
 const getValidation = [
@@ -17,6 +18,33 @@ postRouter.get("/", getValidation, async (req: Request, res: Response) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
+  if (
+    req.query.limit !== undefined &&
+    req.query.page !== undefined &&
+    req.query.search !== undefined
+  ) {
+    const limit = parseInt(req.query.limit as string);
+    const page = parseInt(req.query.page as string);
+    const search = req.query.search;
+    const posts = await Post.find({
+      content: { $regex: search, $options: "i" },
+    })
+      .limit(limit)
+      .skip(limit * (page - 1));
+    return res.json(posts);
+  }
+  if (
+    req.query.limit !== undefined &&
+    req.query.page !== undefined &&
+    req.query.search === undefined
+  ) {
+    const limit = parseInt(req.query.limit as string);
+    const page = parseInt(req.query.page as string);
+    const posts = await Post.find()
+      .limit(limit)
+      .skip(limit * (page - 1));
+    return res.json(posts);
+  }
   if (req.query.userID !== undefined) {
     const posts = await Post.find({ userID: req.query.userID });
     return res.json(posts);
@@ -27,15 +55,9 @@ postRouter.get("/", getValidation, async (req: Request, res: Response) => {
   }
   if (req.query.search !== undefined) {
     const search = req.query.search;
-    const posts = await Post.find({ content: { $regex: search, $options: "i" } });
-    return res.json(posts);
-  }
-  if (req.query.limit !== undefined && req.query.page !== undefined) {
-    const limit = parseInt(req.query.limit as string);
-    const page = parseInt(req.query.page as string);
-    const posts = await Post.find()
-      .limit(limit)
-      .skip(limit * (page - 1));
+    const posts = await Post.find({
+      content: { $regex: search, $options: "i" },
+    });
     return res.json(posts);
   }
   const posts = await Post.find();
@@ -157,6 +179,10 @@ postRouter.post(
   postValidation,
   authenticateUser,
   async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     if (!req.body.content) {
       return res.status(400).json({ message: "Content is required" });
     }
@@ -194,6 +220,10 @@ postRouter.post(
   likesValidation,
   authenticateUser,
   async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     try {
       const _id = req.params._id;
       if (!req.user) {
@@ -205,13 +235,40 @@ postRouter.post(
       if (!post) {
         return res.status(404).json({ message: "Post not found" });
       }
-      if (post.userID !== req.user.id) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
       const timestamp = new Date();
       post.likes.push({ userID: userID, timestamp });
       const likedPost = await post.save();
       res.json(likedPost);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+      console.error(error);
+    }
+  }
+);
+
+type Like = {
+  userID: number;
+  timestamp: Date;
+};
+
+postRouter.delete(
+  "/:_id/likes",
+  likesValidation,
+  authenticateUser,
+  async (req: Request, res: Response) => {
+    try {
+      const _id = req.params._id;
+      if (!req.user) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      const userID = req.user.id;
+      const post: any = await Post.findOne({ _id });
+      if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+      }
+      post.likes = post.likes.filter((like: Like) => like.userID !== userID);
+      const unlikedPost = await post.save();
+      res.json(unlikedPost);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
       console.error(error);

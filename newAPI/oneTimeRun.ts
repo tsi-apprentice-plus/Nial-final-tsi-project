@@ -1,4 +1,4 @@
-// convert all password to hash
+// convert all password to hash, never run this. ever.
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 import User from "./src/schemas/usersSchema";
