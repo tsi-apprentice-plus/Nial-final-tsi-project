@@ -15,13 +15,16 @@ jobs:
     with:
       scan-args: "./newAPI"
       results-file-name: "osv-results-api.sarif"
+      upload-sarif: true
   scan-icds:
     uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@main"
     with:
       scan-args: "./icds-frontend"
       results-file-name: "osv-results-icds.sarif"
+      upload-sarif: true
   scan-mui:
     uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@main"
     with:
       scan-args: "./social-api-frontend"
       results-file-name: "osv-results-mui.sarif"
+      upload-sarif: true

@@ -13,10 +13,16 @@ jobs:
           node-version: "21"
       - name: Install dependencies
         working-directory: icds-frontend
-        run: npm ci
+        run: |
+          npm ci
+          npm install @microsoft/eslint-formatter-sarif
       - name: Lint
         working-directory: icds-frontend
-        run: npm run lint
+        run: npx next lint --format @microsoft/eslint-formatter-sarif --output-file eslint-icds.sarif
+      - name: Upload analysis results to GitHub
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: eslint-icds.sarif
   lint-mui:
     runs-on: ubuntu-latest
     steps:
@@ -26,10 +32,16 @@ jobs:
           node-version: "21"
       - name: Install dependencies
         working-directory: social-api-frontend
-        run: npm ci
+        run: |
+          npm ci
+          npm install @microsoft/eslint-formatter-sarif
       - name: Lint
         working-directory: social-api-frontend
-        run: npm run lint
+        run: npx next lint --format @microsoft/eslint-formatter-sarif --output-file eslint-mui.sarif
+      - name: Upload analysis results to GitHub
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: eslint-mui.sarif
   lint-api:
     runs-on: ubuntu-latest
     steps:
@@ -39,7 +51,13 @@ jobs:
           node-version: "21"
       - name: Install dependencies
         working-directory: newAPI
-        run: npm ci
+        run: |
+          npm ci
+          npm install @microsoft/eslint-formatter-sarif
       - name: Lint
         working-directory: newAPI
-        run: npm run lint
+        run: npx eslint . --format @microsoft/eslint-formatter-sarif --output-file eslint-api.sarif
+      - name: Upload analysis results to GitHub
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: eslint-api.sarif
