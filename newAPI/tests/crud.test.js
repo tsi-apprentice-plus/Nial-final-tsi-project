@@ -112,7 +112,8 @@ describe('Post CRUD', () => {
     expect(res.body).toHaveProperty('message', 'Post deleted');
   });
 });
-describe('Post CRUD', () => {
+
+describe('User CRUD', () => {
     let postId;
     const postUserID = 4;
     const postUsername = 'rgazey3';
