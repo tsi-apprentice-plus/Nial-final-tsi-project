@@ -10,21 +10,8 @@ permissions:
   contents: read
 
 jobs:
-  scan-api:
+  scan:
     uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@v1.7.3"
     with:
-      scan-args: "./newAPI"
-      results-file-name: "api-osv-results.sarif"
-      upload-sarif: true
-  scan-icds:
-    uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@v1.7.3"
-    with:
-      scan-args: "./icds-frontend"
-      results-file-name: "icds-osv-results.sarif"
-      upload-sarif: true
-  scan-mui:
-    uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@v1.7.3"
-    with:
-      scan-args: "./social-api-frontend"
-      results-file-name: "mui-osv-results.sarif"
+      scan-args: "-r"
       upload-sarif: true
