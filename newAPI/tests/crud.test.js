@@ -1,7 +1,7 @@
 import request from 'supertest';
 const baseURL = 'http://100.88.40.21:3101';
 
-describe('SocialAPI', () => {
+describe('Post CRUD', () => {
   let postId;
   const postUserID = 4;
   const postUsername = 'rgazey3';
@@ -56,9 +56,8 @@ describe('SocialAPI', () => {
   it('should get the post by filter', async () => {
     const res = await request(baseURL)
       .get(`/posts?_id=${postId}`);
-
     expect(res.status).toBe(200);
-    const post = res.body[0];
+    const post = res.body;
     expect(post).toHaveProperty('comments', []);
     expect(post).toHaveProperty('likes');
     expect(post.likes.length).toBeGreaterThan(0);
@@ -91,7 +90,7 @@ describe('SocialAPI', () => {
       .get(`/posts?_id=${postId}`);
 
     expect(res.status).toBe(200);
-    const post = res.body[0];
+    const post = res.body;
     expect(post).toHaveProperty('comments', []);
     expect(post).toHaveProperty('likes');
     expect(post.likes.length).toBeGreaterThan(0);
@@ -112,7 +111,19 @@ describe('SocialAPI', () => {
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty('message', 'Post deleted');
   });
-
+});
+describe('Post CRUD', () => {
+    let postId;
+    const postUserID = 4;
+    const postUsername = 'rgazey3';
+    const postPassword = 'lD9>dd%N8$fInB';
+    const postInitialContent = 'new post2';
+    const postUpdatedContent = 'updated post2';
+  
+    const userUsername = 'test';
+    const userPassword = 'youCantSeeMe';
+    const userInitialEmail = 'abc@aa.com';
+    const userUpdatedEmail = 'abc@bb.com';
   it('should create a new user', async () => {
     const res = await request(baseURL)
       .post('/users')
@@ -121,7 +132,6 @@ describe('SocialAPI', () => {
         email: userInitialEmail,
         password: userPassword
       });
-
     expect(res.status).toBe(200);
     const user = res.body;
     expect(user).toHaveProperty('username', userUsername);
