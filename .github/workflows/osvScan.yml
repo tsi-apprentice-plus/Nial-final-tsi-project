@@ -2,12 +2,12 @@ name: OSV-Scanner
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 permissions:
   actions: read
   security-events: write
-  contents: read  
+  contents: read
 
 jobs:
   scan-api:
