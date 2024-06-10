@@ -8,17 +8,20 @@ permissions:
   actions: read
   security-events: write
   contents: read  
-  
+
 jobs:
   scan-api:
     uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@main"
     with:
       scan-args: "./newAPI"
+      results-file-name: "osv-results-api.sarif"
   scan-icds:
     uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@main"
     with:
       scan-args: "./icds-frontend"
+      results-file-name: "osv-results-icds.sarif"
   scan-mui:
     uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@main"
     with:
       scan-args: "./social-api-frontend"
+      results-file-name: "osv-results-mui.sarif"

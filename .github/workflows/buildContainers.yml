@@ -30,7 +30,7 @@ jobs:
         platforms: linux/amd64,linux/arm64
         file: newAPI/Dockerfile
         push: true
-        tags: ghcr.io/nmcc1212/newAPI:latest
+        tags: ghcr.io/nmcc1212/social-api:latest
 
   build-icds:
     runs-on: ubuntu-latest
