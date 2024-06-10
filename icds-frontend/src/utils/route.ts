@@ -87,7 +87,7 @@ export const getPostSearchPaged = async (
   return response.json();
 };
 
-export const updatePost = async (postId: Types.ObjectId, data: UpdatePost) => {
+export const updatePost = async (postId: Types.ObjectId, data?: UpdatePost) => {
   const response = await fetch(`${BASE_URL}/posts/${postId}`, {
     method: "PATCH",
     headers: {'Content-Type': 'application/json'},
@@ -96,7 +96,7 @@ export const updatePost = async (postId: Types.ObjectId, data: UpdatePost) => {
   return response.json();
 };
 
-export const deletePost = async (postId: Types.ObjectId, data: DeletePost) => {
+export const deletePost = async (postId: Types.ObjectId, data?: DeletePost) => {
   const response = await fetch(`${BASE_URL}/posts/${postId}`, {
     method: "DELETE",
     headers: {'Content-Type': 'application/json'},
@@ -105,7 +105,7 @@ export const deletePost = async (postId: Types.ObjectId, data: DeletePost) => {
   return response.json();
 };
 
-export const createUser = async (data: CreateUser) => {
+export const createUser = async (data?: CreateUser) => {
   const response = await fetch(`${BASE_URL}/users`, {
     method: "POST",
     headers: {'Content-Type': 'application/json'},
@@ -121,7 +121,7 @@ export const getUser = async (username = "") => {
   return response.json();
 };
 
-export const updateUser = async (userId: number, data: UpdateUser) => {
+export const updateUser = async (userId: number, data?: UpdateUser) => {
   const response = await fetch(`${BASE_URL}/users/${userId}`, {
     method: "PATCH",
     headers: {'Content-Type': 'application/json'},
@@ -130,7 +130,7 @@ export const updateUser = async (userId: number, data: UpdateUser) => {
   return response.json();
 };
 
-export const deleteUser = async (userId: number, data: DeleteUser) => {
+export const deleteUser = async (userId: number, data?: DeleteUser) => {
   const response = await fetch(`${BASE_URL}/users/${userId}`, {
     method: "DELETE",
     headers: {'Content-Type': 'application/json'},

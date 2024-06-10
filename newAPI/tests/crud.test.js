@@ -1,4 +1,4 @@
-const request = require('supertest');
+import request from 'supertest';
 const baseURL = 'http://100.88.40.21:3101';
 
 describe('SocialAPI', () => {

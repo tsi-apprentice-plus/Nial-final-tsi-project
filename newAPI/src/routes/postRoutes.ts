@@ -1,8 +1,7 @@
-import { Router, Response, Request, NextFunction } from "express";
+import { Router, Response, Request } from "express";
 import { body, validationResult, query, param } from "express-validator";
 import Post from "../schemas/postsSchema";
 import authenticateUser from "../middlewares/userAuth";
-import userRouter from "./userRoutes";
 const postRouter = Router();
 
 const getValidation = [
@@ -193,7 +192,7 @@ postRouter.post(
     try {
       const content = req.body.content;
       const userID = req.user.id;
-      let timestamp = new Date();
+      const timestamp = new Date();
       const post = new Post({ content, userID, timestamp });
       const createdPost = await post.save();
       res.json(createdPost);
@@ -262,9 +261,13 @@ postRouter.delete(
         return res.status(401).json({ message: "Unauthorized" });
       }
       const userID = req.user.id;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const post: any = await Post.findOne({ _id });
       if (!post) {
         return res.status(404).json({ message: "Post not found" });
+      }
+      if (post.likes.length === 0) {
+        return res.status(400).json({ message: "Post has no likes" });
       }
       post.likes = post.likes.filter((like: Like) => like.userID !== userID);
       const unlikedPost = await post.save();

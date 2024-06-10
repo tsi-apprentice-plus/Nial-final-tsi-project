@@ -1,0 +1,19 @@
+name: OSV-Scanner
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  scan-api:
+    uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@main"
+    with:
+      scan-args: "./newAPI"
+  scan-icds:
+    uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@main"
+    with:
+      scan-args: "./icds-frontend"
+  scan-mui:
+    uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@main"
+    with:
+      scan-args: "./social-api-frontend"

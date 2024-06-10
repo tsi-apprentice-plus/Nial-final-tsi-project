@@ -1,12 +1,9 @@
 import express, { Request, Response } from "express";
 import app from './app';
 import mongoose from "mongoose";
-import Post from "./schemas/postsSchema";
-import User from "./schemas/usersSchema";
 import postRouter from "./routes/postRoutes";
 import userRouter from "./routes/userRoutes";
 import loggerMiddleware from "./middlewares/logger";
-import { create } from "domain";
 import http from 'http';
 import { env } from "process";
 import cors from 'cors';

@@ -67,19 +67,19 @@ userRouter.get("/", getValidation, async (req: Request, res: Response) => {
     return res.status(400).json({ errors: errors.array() });
   }
   if (req.query._id !== undefined) {
-    let users = await User.find({ _id: req.query._id });
+    const users = await User.find({ _id: req.query._id });
     return res.json(users);
   } else if (req.query.email !== undefined) {
-    let users = await User.find({ email: req.query.email });
+    const users = await User.find({ email: req.query.email });
     return res.json(users);
   } else if (req.query.username !== undefined) {
-    let users = await User.find({ username: req.query.username });
+    const users = await User.find({ username: req.query.username });
     return res.json(users);
   } else if (req.query.id !== undefined) {
-    let users = await User.find({ id: req.query.id });
+    const users = await User.find({ id: req.query.id });
     return res.json(users);
   } else {
-    let users = await User.find();
+    const users = await User.find();
     return res.json(users);
   }
 });
