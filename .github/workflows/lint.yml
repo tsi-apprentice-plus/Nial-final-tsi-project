@@ -12,6 +12,7 @@ jobs:
       with:
         node-version: '16'
     - name: Install dependencies
+      working-directory: icds-frontend
       run: npm ci
     - name: Lint
       working-directory: icds-frontend
@@ -24,6 +25,7 @@ jobs:
       with:
         node-version: '16'
     - name: Install dependencies
+      working-directory: social-api-frontend
       run: npm ci
     - name: Lint
       working-directory: social-api-frontend
@@ -36,6 +38,7 @@ jobs:
       with:
         node-version: '16'
     - name: Install dependencies
+      working-directory: newAPI
       run: npm ci
     - name: Lint
       working-directory: newAPI
