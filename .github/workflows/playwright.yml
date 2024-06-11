@@ -4,7 +4,6 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
-
 jobs:
   test:
     timeout-minutes: 60
@@ -17,6 +16,24 @@ jobs:
       - name: Install dependencies
         working-directory: icds-frontend
         run: npm ci
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.11.0
+        with:
+          mongodb-container-name: db
+      - name: Install mongosh
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget gnupg
+          wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+          echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+          sudo apt-get update
+          sudo apt-get install -y mongodb-mongosh mongodb-org-tools
+      - name: Load posts into MongoDB
+        run: mongoimport --uri mongodb://localhost:27017/socialAPI --collection posts --file ./mongo/socialAPI.posts.json --jsonArray
+      - name: Load users into MongoDB
+        run: mongoimport --uri mongodb://localhost:27017/socialAPI --collection users --file ./mongo/socialAPI.users.json --jsonArray
+      - name: Start the API
+        run: docker compose up -d api icds-frontend
       - name: Install Playwright Browsers
         working-directory: icds-frontend
         run: npx playwright install --with-deps

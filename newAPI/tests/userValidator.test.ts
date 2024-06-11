@@ -1,4 +1,5 @@
-import { validationResult } from "express-validator";
+import { ValidationChain, validationResult } from "express-validator";
+import { Request } from "express-validator/lib/base";
 import {
   GetValidation,
   // DeleteValidation,
@@ -6,7 +7,7 @@ import {
   PostValidation,
 } from "../src/utils/userValidations";
 
-const runValidation = async (req: any, validations: any) => {
+const runValidation = async (req: Request, validations: ValidationChain[]) => {
   for (const validation of validations) {
     await validation.run(req);
   }
