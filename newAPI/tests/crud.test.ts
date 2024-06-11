@@ -20,7 +20,7 @@ describe('Post CRUD', () => {
         },
         content: postInitialContent
       });
-
+    console.log(res.body);
     expect(res.status).toBe(200);
     const post = res.body;
     expect(post).toHaveProperty('comments', []);
