@@ -25,15 +25,13 @@ jobs:
       - name: Run MongoDB container
         run: docker-compose up -d db
       - name: Wait for MongoDB to be ready
-        run: sleep 15
+        run: sleep 45
       - name: get logs
         run: docker logs db
       - name: Run API container
         run: docker-compose up -d api
       - name: Wait for API to be ready
-        run: sleep 15
-      - name: debug get logs
-        run: docker logs api
+        run: docker logs -f api | grep -q 'server started at'
       - name: Run Jest API tests
         working-directory: newAPI
         run: npm run test
