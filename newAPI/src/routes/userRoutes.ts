@@ -1,16 +1,17 @@
 import { Router, Response, Request } from "express";
-import { body, validationResult, query, param } from "express-validator";
+import { validationResult } from "express-validator";
 import User from "../schemas/usersSchema";
 import authenticateUser from "../middlewares/userAuth";
 import bcrypt from "bcrypt";
+import {
+  GetValidation,
+  DeleteValidation,
+  PatchValidation,
+  PostValidation,
+} from "../utils/userValidations";
 
 const userRouter = Router();
 
-const PostValidation = [
-  body("username").notEmpty().withMessage("Username is required"),
-  body("email").isEmail().withMessage("Invalid email format"),
-  body("password").notEmpty().withMessage("Password is required"),
-];
 // username, email, and password required
 userRouter.post("/", PostValidation, async (req: Request, res: Response) => {
   const errors = validationResult(req);
@@ -53,15 +54,8 @@ userRouter.post("/", PostValidation, async (req: Request, res: Response) => {
   res.json(newUser);
 });
 
-const getValidation = [
-  query("_id").optional().isMongoId().withMessage("Invalid _id format"),
-  query("email").optional().isEmail().withMessage("Invalid email format"),
-  query("username").optional(),
-  query("id").optional().isInt().withMessage("Invalid id format"),
-];
-
 // can take _id, id, email, or username as query parameter
-userRouter.get("/", getValidation, async (req: Request, res: Response) => {
+userRouter.get("/", GetValidation, async (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -83,23 +77,11 @@ userRouter.get("/", getValidation, async (req: Request, res: Response) => {
     return res.json(users);
   }
 });
+
 // can take email, username or password in body, must username and password in auth
-const patchValidation = [
-  param("id").isInt().withMessage("Invalid id format"),
-  body("username").optional(),
-  body("email").optional().isEmail().withMessage("Invalid email format"),
-  body("password").optional(),
-  body("auth").isObject().withMessage("Auth object is required"),
-  body("auth.username")
-    .notEmpty()
-    .withMessage("Username is required in auth object"),
-  body("auth.password")
-    .notEmpty()
-    .withMessage("Password is required in auth object"),
-];
 userRouter.patch(
   "/:id",
-  patchValidation,
+  PatchValidation,
   authenticateUser,
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
@@ -135,21 +117,10 @@ userRouter.patch(
   }
 );
 
-const deleteValidation = [
-  param("id").isInt().withMessage("Invalid id format"),
-  body("auth").isObject().withMessage("Auth object is required"),
-  body("auth.username")
-    .notEmpty()
-    .withMessage("Username is required in auth object"),
-  body("auth.password")
-    .notEmpty()
-    .withMessage("Password is required in auth object"),
-];
-
 // must have username and password in auth
 userRouter.delete(
   "/:id",
-  deleteValidation,
+  DeleteValidation,
   authenticateUser,
   async (req: Request, res: Response) => {
     const errors = validationResult(req);

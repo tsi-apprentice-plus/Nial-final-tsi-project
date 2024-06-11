@@ -1,18 +1,12 @@
 import { Router, Response, Request } from "express";
-import { body, validationResult, query, param } from "express-validator";
+import { validationResult } from "express-validator";
 import Post from "../schemas/postsSchema";
 import authenticateUser from "../middlewares/userAuth";
 const postRouter = Router();
+import { GetValidation, DeleteValidation, PatchValidation, PostValidation, LikesValidation } from "../utils/postValidations";
 
-const getValidation = [
-  query("userID").optional(),
-  query("_id").optional().isMongoId().withMessage("Invalid _id format"),
-  query("search").optional(),
-  query("limit").optional().isInt().withMessage("Limit must be an integer"),
-  query("page").optional().isInt().withMessage("Page must be an integer"),
-];
 // returns all posts, can filter by userID or _id
-postRouter.get("/", getValidation, async (req: Request, res: Response) => {
+postRouter.get("/", GetValidation, async (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -63,20 +57,9 @@ postRouter.get("/", getValidation, async (req: Request, res: Response) => {
   return res.json(posts);
 });
 
-// auth required, _id required in params
-const deleteValidation = [
-  param("_id").isMongoId().withMessage("Invalid _id format"),
-  body("auth").isObject().withMessage("Auth object is required"),
-  body("auth.username")
-    .notEmpty()
-    .withMessage("Username is required in auth object"),
-  body("auth.password")
-    .notEmpty()
-    .withMessage("Password is required in auth object"),
-];
 postRouter.delete(
   "/:_id",
-  deleteValidation,
+  DeleteValidation,
   authenticateUser,
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
@@ -112,21 +95,11 @@ postRouter.delete(
     }
   }
 );
-const patchValidation = [
-  param("_id").isMongoId().withMessage("Invalid _id format"),
-  body("auth").isObject().withMessage("Auth object is required"),
-  body("auth.username")
-    .notEmpty()
-    .withMessage("Username is required in auth object"),
-  body("auth.password")
-    .notEmpty()
-    .withMessage("Password is required in auth object"),
-  body("content").notEmpty().withMessage("Content needed"), // Add validation for other fields as needed
-];
+
 //  auth required, _id required in url, content required in body,returns updated post
 postRouter.patch(
   "/:_id",
-  patchValidation,
+  PatchValidation,
   authenticateUser,
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
@@ -162,20 +135,10 @@ postRouter.patch(
   }
 );
 
-const postValidation = [
-  body("auth").isObject().withMessage("Auth object is required"),
-  body("auth.username")
-    .notEmpty()
-    .withMessage("Username is required in auth object"),
-  body("auth.password")
-    .notEmpty()
-    .withMessage("Password is required in auth object"),
-  body("content").notEmpty().withMessage("Content is required"),
-];
 // content required in body, returns created post
 postRouter.post(
   "/",
-  postValidation,
+  PostValidation,
   authenticateUser,
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
@@ -203,20 +166,10 @@ postRouter.post(
   }
 );
 
-const likesValidation = [
-  param("_id").isMongoId().withMessage("Invalid _id format"),
-  body("auth").isObject().withMessage("Auth object is required"),
-  body("auth.username")
-    .notEmpty()
-    .withMessage("Username is required in auth object"),
-  body("auth.password")
-    .notEmpty()
-    .withMessage("Password is required in auth object"),
-];
 // auth required, _id required in params, gets userID thru auth, returns liked post
 postRouter.post(
   "/:_id/likes",
-  likesValidation,
+  LikesValidation,
   authenticateUser,
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
@@ -252,7 +205,7 @@ type Like = {
 
 postRouter.delete(
   "/:_id/likes",
-  likesValidation,
+  LikesValidation,
   authenticateUser,
   async (req: Request, res: Response) => {
     try {

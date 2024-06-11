@@ -1,5 +1,6 @@
 import request from 'supertest';
-const baseURL = 'http://100.88.40.21:3101';
+
+const baseURL = 'http://localhost:3101';
 
 describe('Post CRUD', () => {
   let postId;
@@ -8,11 +9,6 @@ describe('Post CRUD', () => {
   const postPassword = 'lD9>dd%N8$fInB';
   const postInitialContent = 'new post2';
   const postUpdatedContent = 'updated post2';
-
-  const userUsername = 'test';
-  const userPassword = 'youCantSeeMe';
-  const userInitialEmail = 'abc@aa.com';
-  const userUpdatedEmail = 'abc@bb.com';
 
   it('should create a new post', async () => {
     const res = await request(baseURL)
@@ -114,17 +110,12 @@ describe('Post CRUD', () => {
 });
 
 describe('User CRUD', () => {
-    let postId;
-    const postUserID = 4;
-    const postUsername = 'rgazey3';
-    const postPassword = 'lD9>dd%N8$fInB';
-    const postInitialContent = 'new post2';
-    const postUpdatedContent = 'updated post2';
-  
-    const userUsername = 'test';
-    const userPassword = 'youCantSeeMe';
-    const userInitialEmail = 'abc@aa.com';
-    const userUpdatedEmail = 'abc@bb.com';
+  const userUsername = 'test';
+  const userPassword = 'youCantSeeMe';
+  const userInitialEmail = 'abc@aa.com';
+  const userUpdatedEmail = 'abc@bb.com';
+
+  let userId;
   it('should create a new user', async () => {
     const res = await request(baseURL)
       .post('/users')
@@ -139,10 +130,10 @@ describe('User CRUD', () => {
     expect(user).toHaveProperty('email', userInitialEmail);
     expect(user).toHaveProperty('password');
     expect(user.password).not.toBe(userPassword);
+    userId = user.id;
   });
 
   it('should update the user email', async () => {
-    const userId = 51; // Assuming you have a way to get this ID
     const res = await request(baseURL)
       .patch(`/users/${userId}`)
       .send({
@@ -160,7 +151,6 @@ describe('User CRUD', () => {
   });
 
   it('should delete the user', async () => {
-    const userId = 51; // Assuming you have a way to get this ID
     const res = await request(baseURL)
       .delete(`/users/${userId}`)
       .send({

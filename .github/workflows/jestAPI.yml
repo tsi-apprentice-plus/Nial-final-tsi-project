@@ -1,0 +1,20 @@
+name: Jest API Tests
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
+      - name: Install dependencies
+        working-directory: newAPI
+        run: npm ci
+      - name: Run Jest API tests
+        working-directory: newAPI
+        run: npm run test
