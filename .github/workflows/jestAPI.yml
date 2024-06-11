@@ -25,6 +25,8 @@ jobs:
         run: docker-compose up -d db api
       - name: Wait for api to start
         run: sleep 15
+      - name: debug get logs
+        run: docker logs api
       - name: Run Jest API tests
         working-directory: newAPI
         run: npm run test
