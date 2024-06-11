@@ -21,7 +21,7 @@ services:
     depends_on:
       - db
     environment:
-      - MONGO_URI=mongodb://mongo:27017/newapi
+      # - MONGO_URI=mongodb://mongo:27017/newapi
       - NODE_OPTIONS=--max_old_space_size=8192
   db:
     image: mongo
