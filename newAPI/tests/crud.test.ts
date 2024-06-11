@@ -3,7 +3,7 @@ import request from 'supertest';
 const baseURL = 'http://localhost:3101';
 
 describe('Post CRUD', () => {
-  let postId;
+  let postId: string;
   const postUserID = 4;
   const postUsername = 'rgazey3';
   const postPassword = 'lD9>dd%N8$fInB';
@@ -115,7 +115,7 @@ describe('User CRUD', () => {
   const userInitialEmail = 'abc@aa.com';
   const userUpdatedEmail = 'abc@bb.com';
 
-  let userId;
+  let userId: number;
   it('should create a new user', async () => {
     const res = await request(baseURL)
       .post('/users')
