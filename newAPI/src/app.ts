@@ -2,7 +2,7 @@ import express from "express";
 import postRouter from "./routes/postRoutes";
 import userRouter from "./routes/userRoutes";
 import loggerMiddleware from "./middlewares/logger";
-import cors from 'cors';
+import cors from "cors";
 
 const app = express();
 

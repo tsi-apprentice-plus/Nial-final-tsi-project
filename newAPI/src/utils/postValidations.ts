@@ -1,6 +1,6 @@
-import { query, param, body } from 'express-validator';
+import { query, body } from "express-validator";
 
-import { authValidation, _idValidation } from './validations';
+import { authValidation, _idValidation } from "./validations";
 
 export const GetValidation = [
   query("userID").optional(),
@@ -9,10 +9,7 @@ export const GetValidation = [
   query("limit").optional().isInt().withMessage("Limit must be an integer"),
   query("page").optional().isInt().withMessage("Page must be an integer"),
 ];
-export const DeleteValidation = [
-  _idValidation,
-  ...authValidation
-];
+export const DeleteValidation = [_idValidation, ...authValidation];
 export const PatchValidation = [
   _idValidation,
   ...authValidation,
@@ -22,7 +19,4 @@ export const PostValidation = [
   ...authValidation,
   body("content").notEmpty().withMessage("Content is required"),
 ];
-export const LikesValidation = [
-  _idValidation,
-  ...authValidation
-];
+export const LikesValidation = [_idValidation, ...authValidation];

@@ -1,21 +1,27 @@
-"use client"
+"use client";
 
 import { IcCard, IcButton } from "@ukic/react";
-import {Post} from "@/types/post";
+import { Post } from "@/types/post";
 import Icon from "@mdi/react";
-import {mdiCommentOutline, mdiThumbUpOutline, mdiThumbUp, mdiComment, mdiAccount} from "@mdi/js";
+import {
+  mdiCommentOutline,
+  mdiThumbUpOutline,
+  mdiThumbUp,
+  mdiComment,
+  mdiAccount,
+} from "@mdi/js";
 import { useState } from "react";
 
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/en';
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import "dayjs/locale/en";
 dayjs.extend(relativeTime);
-dayjs.locale('en');
+dayjs.locale("en");
 
-import { likePost, unlikePost } from '@/utils/route';
+import { likePost, unlikePost } from "@/utils/route";
 
 export default function PostCard(post: Post) {
-  const userliked = post.likes.some(like => Number(like.userID) === 99);
+  const userliked = post.likes.some((like) => Number(like.userID) === 99);
 
   const [liked, setLiked] = useState<boolean>(userliked);
   const [likeCount, setLikeCount] = useState(post.likes.length);
@@ -25,20 +31,25 @@ export default function PostCard(post: Post) {
     setLiked(newliked);
     if (!post._id) return;
     if (newliked) {
-      const res = await likePost(post._id)
+      const res = await likePost(post._id);
     } else {
-      const res = await unlikePost(post._id)
+      const res = await unlikePost(post._id);
     }
-    setLikeCount(newliked ? likeCount + 1 : likeCount - 1)
+    setLikeCount(newliked ? likeCount + 1 : likeCount - 1);
   }
   return (
     <div>
-      <IcCard heading={String(post.userID)} subheading={dayjs(post.timestamp).fromNow()} message={post.content} className="bg-white shadow-md rounded-lg">
+      <IcCard
+        heading={String(post.userID)}
+        subheading={dayjs(post.timestamp).fromNow()}
+        message={post.content}
+        className="bg-white shadow-md rounded-lg"
+      >
         <Icon path={mdiAccount} size={1} />
-        <div 
-        slot="interaction-controls" 
-        style={{ display: "flex", gap: "16px" 
-        }}>
+        <div
+          slot="interaction-controls"
+          style={{ display: "flex", gap: "16px" }}
+        >
           <IcButton onClick={likeHandler}>
             <Icon path={liked ? mdiThumbUp : mdiThumbUpOutline} size={1} />
             {likeCount} Likes

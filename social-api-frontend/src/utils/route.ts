@@ -44,24 +44,24 @@ export const createPost = async (data: CreatePost) => {
   const datas = { ...data, auth };
   const response = await fetch(`${BASE_URL}/posts`, {
     method: "POST",
-    headers: {'Content-Type': 'application/json'},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(datas),
   });
   return response.json();
 };
 
-export async function likePost (postId: Types.ObjectId)  {
+export async function likePost(postId: Types.ObjectId) {
   const response = await fetch(`${BASE_URL}/posts/${postId}/likes`, {
     method: "POST",
-    headers: {'Content-Type': 'application/json'},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(HardcodedData),
   });
   return response.json();
-};
+}
 
 export const getPosts = async (postId = "") => {
   const response = await fetch(
-    `${BASE_URL}/posts${postId ? `?_id=${postId}` : ""}`
+    `${BASE_URL}/posts${postId ? `?_id=${postId}` : ""}`,
   );
   return response.json();
 };
@@ -79,10 +79,10 @@ export const searchPosts = async (search: string) => {
 export const getPostSearchPaged = async (
   limit: number,
   page: number,
-  search?: string
+  search?: string,
 ) => {
   const response = await fetch(
-    `${BASE_URL}/posts?limit=${limit}&page=${page}&search=${search}`
+    `${BASE_URL}/posts?limit=${limit}&page=${page}&search=${search}`,
   );
   return response.json();
 };
@@ -90,7 +90,7 @@ export const getPostSearchPaged = async (
 export const updatePost = async (postId: Types.ObjectId, data: UpdatePost) => {
   const response = await fetch(`${BASE_URL}/posts/${postId}`, {
     method: "PATCH",
-    headers: {'Content-Type': 'application/json'},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(HardcodedData),
   });
   return response.json();
@@ -99,7 +99,7 @@ export const updatePost = async (postId: Types.ObjectId, data: UpdatePost) => {
 export const deletePost = async (postId: Types.ObjectId, data: DeletePost) => {
   const response = await fetch(`${BASE_URL}/posts/${postId}`, {
     method: "DELETE",
-    headers: {'Content-Type': 'application/json'},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(HardcodedData),
   });
   return response.json();
@@ -108,7 +108,7 @@ export const deletePost = async (postId: Types.ObjectId, data: DeletePost) => {
 export const createUser = async (data: CreateUser) => {
   const response = await fetch(`${BASE_URL}/users`, {
     method: "POST",
-    headers: {'Content-Type': 'application/json'},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(HardcodedData),
   });
   return response.json();
@@ -116,7 +116,7 @@ export const createUser = async (data: CreateUser) => {
 
 export const getUser = async (username = "") => {
   const response = await fetch(
-    `${BASE_URL}/users${username ? `?username=${username}` : ""}`
+    `${BASE_URL}/users${username ? `?username=${username}` : ""}`,
   );
   return response.json();
 };
@@ -124,7 +124,7 @@ export const getUser = async (username = "") => {
 export const updateUser = async (userId: number, data: UpdateUser) => {
   const response = await fetch(`${BASE_URL}/users/${userId}`, {
     method: "PATCH",
-    headers: {'Content-Type': 'application/json'},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(HardcodedData),
   });
   return response.json();
@@ -133,7 +133,7 @@ export const updateUser = async (userId: number, data: UpdateUser) => {
 export const deleteUser = async (userId: number, data: DeleteUser) => {
   const response = await fetch(`${BASE_URL}/users/${userId}`, {
     method: "DELETE",
-    headers: {'Content-Type': 'application/json'},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(HardcodedData),
   });
   return response.json();
@@ -141,8 +141,8 @@ export const deleteUser = async (userId: number, data: DeleteUser) => {
 export const unlikePost = async (postId: Types.ObjectId, data?: DeletePost) => {
   const response = await fetch(`${BASE_URL}/posts/${postId}/likes`, {
     method: "DELETE",
-    headers: {'Content-Type': 'application/json'},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(HardcodedData),
   });
   return response.json();
-}
+};

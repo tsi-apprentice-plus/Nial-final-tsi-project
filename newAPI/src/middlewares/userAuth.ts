@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 async function authenticateUser(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     if (!req.body.auth) {

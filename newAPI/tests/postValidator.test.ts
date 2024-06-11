@@ -8,7 +8,7 @@ import {
 } from "../src/utils/postValidations";
 
 const runValidation = async (req: any, validations: any) => {
-  for (let validation of validations) {
+  for (const validation of validations) {
     await validation.run(req);
   }
   return validationResult(req);
@@ -22,7 +22,7 @@ describe("GET /posts validation", () => {
     expect(result.array()).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ msg: "Invalid _id format", path: "_id" }),
-      ])
+      ]),
     );
   });
 
@@ -36,7 +36,7 @@ describe("GET /posts validation", () => {
           msg: "Limit must be an integer",
           path: "limit",
         }),
-      ])
+      ]),
     );
   });
 
@@ -50,7 +50,7 @@ describe("GET /posts validation", () => {
           msg: "Page must be an integer",
           path: "page",
         }),
-      ])
+      ]),
     );
   });
   it("should pass with valid query parameters", async () => {
@@ -63,14 +63,14 @@ describe("GET /posts validation", () => {
 describe("DELETE /posts/:_id validation", () => {
   it("should fail with invalid _id format", async () => {
     const req = {
-      params: { _id: "invalid_id" }
+      params: { _id: "invalid_id" },
     };
     const result = await runValidation(req, DeleteValidation);
     expect(result.isEmpty()).toBe(false);
     expect(result.array()).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ msg: "Invalid _id format", path: "_id" }),
-      ])
+      ]),
     );
   });
 
@@ -84,7 +84,7 @@ describe("DELETE /posts/:_id validation", () => {
           msg: "Auth object is required",
           path: "auth",
         }),
-      ])
+      ]),
     );
   });
 
@@ -100,7 +100,7 @@ describe("DELETE /posts/:_id validation", () => {
           msg: "Username is required in auth object",
           path: "auth.username",
         }),
-      ])
+      ]),
     );
   });
   it("should fail if password in auth object is missing", async () => {
@@ -115,7 +115,7 @@ describe("DELETE /posts/:_id validation", () => {
           msg: "Password is required in auth object",
           path: "auth.password",
         }),
-      ])
+      ]),
     );
   });
   it("should pass with valid _id and auth object", async () => {
@@ -139,7 +139,7 @@ describe("PATCH /posts/:_id validation", () => {
     expect(result.array()).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ msg: "Invalid _id format", path: "_id" }),
-      ])
+      ]),
     );
   });
 
@@ -156,7 +156,7 @@ describe("PATCH /posts/:_id validation", () => {
           msg: "Auth object is required",
           path: "auth",
         }),
-      ])
+      ]),
     );
   });
 
@@ -173,7 +173,7 @@ describe("PATCH /posts/:_id validation", () => {
           msg: "Username is required in auth object",
           path: "auth.username",
         }),
-      ])
+      ]),
     );
   });
 
@@ -187,7 +187,7 @@ describe("PATCH /posts/:_id validation", () => {
     expect(result.array()).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ msg: "Content needed", path: "content" }),
-      ])
+      ]),
     );
   });
 });
@@ -203,7 +203,7 @@ describe("POST /posts validation", () => {
           msg: "Auth object is required",
           path: "auth",
         }),
-      ])
+      ]),
     );
   });
 
@@ -217,7 +217,7 @@ describe("POST /posts validation", () => {
           msg: "Username is required in auth object",
           path: "auth.username",
         }),
-      ])
+      ]),
     );
   });
 
@@ -231,7 +231,7 @@ describe("POST /posts validation", () => {
           msg: "Content is required",
           path: "content",
         }),
-      ])
+      ]),
     );
   });
 });
@@ -246,7 +246,7 @@ describe("POST /posts/:_id/likes validation", () => {
     expect(result.array()).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ msg: "Invalid _id format", path: "_id" }),
-      ])
+      ]),
     );
   });
 
@@ -260,7 +260,7 @@ describe("POST /posts/:_id/likes validation", () => {
           msg: "Auth object is required",
           path: "auth",
         }),
-      ])
+      ]),
     );
   });
 
@@ -276,7 +276,7 @@ describe("POST /posts/:_id/likes validation", () => {
           msg: "Username is required in auth object",
           path: "auth.username",
         }),
-      ])
+      ]),
     );
   });
   it("should pass with valid _id and auth object", async () => {

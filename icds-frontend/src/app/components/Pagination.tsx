@@ -1,32 +1,36 @@
-"use client"
-import { IcPagination } from "@ukic/react"
-import { usePathname, useSearchParams, useRouter } from "next/navigation"
+"use client";
+import { IcPagination } from "@ukic/react";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 interface PaginationProps {
   pages: number;
 }
 
-export default function Pagination({pages}: PaginationProps) {
-  const router = useRouter()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
+export default function Pagination({ pages }: PaginationProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  function createQueryString (name: string, value: string) {
-    const params = new URLSearchParams(searchParams.toString())
-    params.set(name, value)
-    return params.toString()
+  function createQueryString(name: string, value: string) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set(name, value);
+    return params.toString();
   }
   function changePage(pageNumber: number) {
-    console.log("change page", pageNumber)
-    const query = createQueryString('page', pageNumber.toString())
-    console.log("query", query)
-    router.push(pathname + '?' + query)
+    console.log("change page", pageNumber);
+    const query = createQueryString("page", pageNumber.toString());
+    console.log("query", query);
+    router.push(pathname + "?" + query);
   }
 
   function getCurrentPage() {
-    return Number(searchParams.get('page')) || 1
+    return Number(searchParams.get("page")) || 1;
   }
   return (
-      <IcPagination onIcPageChange={(e) => changePage(e.detail.value)} pages={pages} currentPage={getCurrentPage()}/>
-    )
+    <IcPagination
+      onIcPageChange={(e) => changePage(e.detail.value)}
+      pages={pages}
+      currentPage={getCurrentPage()}
+    />
+  );
 }

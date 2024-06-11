@@ -1,22 +1,21 @@
-"use client"
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIosNew';
-import clsx from 'clsx';
-import { usePathname, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
+"use client";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIosNew";
+import clsx from "clsx";
+import { usePathname, useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 type Props = {
-  postLength: number
-}
+  postLength: number;
+};
 export default function Pagination(postLength: Props) {
-
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const currentPage = Number(searchParams.get('page')) || 1;
+  const currentPage = Number(searchParams.get("page")) || 1;
 
   const createPageURL = (pageNumber: number | string) => {
     const params = new URLSearchParams(searchParams);
-    params.set('page', pageNumber.toString());
+    params.set("page", pageNumber.toString());
     return `${pathname}?${params.toString()}`;
   };
   return (
@@ -35,28 +34,28 @@ export default function Pagination(postLength: Props) {
     </div>
   );
 }
-  
+
 function PaginationArrow({
   href,
   direction,
   isDisabled,
 }: {
   href: string;
-  direction: 'left' | 'right';
+  direction: "left" | "right";
   isDisabled?: boolean;
 }) {
   const className = clsx(
-    'flex h-10 w-10 items-center justify-center rounded-md border',
+    "flex h-10 w-10 items-center justify-center rounded-md border",
     {
-      'pointer-events-none text-gray-300': isDisabled,
-      'hover:bg-gray-100': !isDisabled,
-      'mr-2 md:mr-4': direction === 'left',
-      'ml-2 md:ml-4': direction === 'right',
+      "pointer-events-none text-gray-300": isDisabled,
+      "hover:bg-gray-100": !isDisabled,
+      "mr-2 md:mr-4": direction === "left",
+      "ml-2 md:ml-4": direction === "right",
     },
   );
 
   const icon =
-    direction === 'left' ? (
+    direction === "left" ? (
       <ArrowBackIosIcon className="w-4" />
     ) : (
       <ArrowForwardIosIcon className="w-4" />

@@ -13,14 +13,14 @@ spec:
         app: api
     spec:
       containers:
-      - name: api
-        image: ghcr.io/nmcc1212/mongo-api
-        ports:
-        - containerPort: 3101
-        env:
-        - name: MONGO_URI
-          value: "mongodb://mongo:27017/newapi"
-        - name: NODE_OPTIONS
-          value: "--max_old_space_size=8192"
-        command: ["npm", "run", "dev"]
+        - name: api
+          image: ghcr.io/nmcc1212/mongo-api
+          ports:
+            - containerPort: 3101
+          env:
+            - name: MONGO_URI
+              value: "mongodb://mongo:27017/newapi"
+            - name: NODE_OPTIONS
+              value: "--max_old_space_size=8192"
+          command: ["npm", "run", "dev"]
       restartPolicy: Always

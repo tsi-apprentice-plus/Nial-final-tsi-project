@@ -1,12 +1,12 @@
-import PostsList from './components/PostsList';
-import { getPostSearchPaged, getPosts } from '@/utils/route';
-import { Posts } from '@/types/post';
-import Search from './components/search';
-import Pagination from './components/Pagination';
-import CreatePost from './components/CreatePost';
+import PostsList from "./components/PostsList";
+import { getPostSearchPaged, getPosts } from "@/utils/route";
+import { Posts } from "@/types/post";
+import Search from "./components/search";
+import Pagination from "./components/Pagination";
+import CreatePost from "./components/CreatePost";
 
 interface Props {
-  searchParams: { query?: string, page?: number };
+  searchParams: { query?: string; page?: number };
 }
 
 export default async function Homepage({ searchParams }: Props) {
@@ -16,10 +16,10 @@ export default async function Homepage({ searchParams }: Props) {
   const posts: Posts = await getPostSearchPaged(25, page || 1, query || "");
   return (
     <div>
-      <Search/>
+      <Search />
       <CreatePost />
       <PostsList posts={posts} />
-      <br/>
+      <br />
       <Pagination pages={pages} />
     </div>
   );

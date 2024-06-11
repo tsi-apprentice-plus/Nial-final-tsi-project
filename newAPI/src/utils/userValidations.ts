@@ -1,11 +1,17 @@
 import { body, query, param } from "express-validator";
 
-import { emailValidation, passwordValidation, usernameValidation, _idValidation, authValidation } from "./validations";
+import {
+  emailValidation,
+  passwordValidation,
+  usernameValidation,
+  // _idValidation,
+  authValidation,
+} from "./validations";
 
 export const PostValidation = [
   emailValidation,
   ...passwordValidation,
-  ...usernameValidation
+  ...usernameValidation,
 ];
 
 export const GetValidation = [
@@ -20,10 +26,10 @@ export const PatchValidation = [
   body("username").optional(),
   body("email").optional().isEmail().withMessage("Invalid email format"),
   body("password").optional(),
-  ...authValidation
+  ...authValidation,
 ];
 
 export const DeleteValidation = [
   param("id").isInt().withMessage("Invalid id format"),
-  ...authValidation
+  ...authValidation,
 ];

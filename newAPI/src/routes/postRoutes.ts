@@ -3,7 +3,13 @@ import { validationResult } from "express-validator";
 import Post from "../schemas/postsSchema";
 import authenticateUser from "../middlewares/userAuth";
 const postRouter = Router();
-import { GetValidation, DeleteValidation, PatchValidation, PostValidation, LikesValidation } from "../utils/postValidations";
+import {
+  GetValidation,
+  DeleteValidation,
+  PatchValidation,
+  PostValidation,
+  LikesValidation,
+} from "../utils/postValidations";
 
 // returns all posts, can filter by userID or _id
 postRouter.get("/", GetValidation, async (req: Request, res: Response) => {
@@ -93,7 +99,7 @@ postRouter.delete(
       res.status(500).json({ message: "Internal server error" });
       console.error(error);
     }
-  }
+  },
 );
 
 //  auth required, _id required in url, content required in body,returns updated post
@@ -132,7 +138,7 @@ postRouter.patch(
       res.status(500).json({ message: "Internal server error" });
       console.error(error);
     }
-  }
+  },
 );
 
 // content required in body, returns created post
@@ -163,7 +169,7 @@ postRouter.post(
       res.status(500).json({ message: "Internal server error" });
       console.error(error);
     }
-  }
+  },
 );
 
 // auth required, _id required in params, gets userID thru auth, returns liked post
@@ -195,7 +201,7 @@ postRouter.post(
       res.status(500).json({ message: "Internal server error" });
       console.error(error);
     }
-  }
+  },
 );
 
 type Like = {
@@ -229,7 +235,7 @@ postRouter.delete(
       res.status(500).json({ message: "Internal server error" });
       console.error(error);
     }
-  }
+  },
 );
 
 export default postRouter;

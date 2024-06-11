@@ -1,26 +1,30 @@
-"use client"
-import { useDebouncedCallback } from 'use-debounce';
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+"use client";
+import { useDebouncedCallback } from "use-debounce";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
-import { IcTopNavigation, SlottedSVG, IcSearchBar, IcNavigationButton, IcNavigationItem } from "@ukic/react";
+import {
+  IcTopNavigation,
+  SlottedSVG,
+  IcSearchBar,
+  IcNavigationButton,
+  IcNavigationItem,
+} from "@ukic/react";
 export default function Search() {
-
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const handleSearch = useDebouncedCallback((e)=>{
-    const params = new URLSearchParams(searchParams)
-    const term: string = e.detail.value
-    params.set('page', '1');
+  const handleSearch = useDebouncedCallback((e) => {
+    const params = new URLSearchParams(searchParams);
+    const term: string = e.detail.value;
+    params.set("page", "1");
     if (term) {
-      params.set('query', term);
+      params.set("query", term);
     } else {
-      params.delete('query');
+      params.delete("query");
     }
     replace(`${pathname}?${params.toString()}`);
-  }, 300)
-
+  }, 300);
 
   return (
     <IcTopNavigation appTitle="TSI">
@@ -35,9 +39,14 @@ export default function Search() {
         <path d="M0 0h24v24H0V0z" fill="none" />
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5.5-2.5l7.51-3.49L17.5 6.5 9.99 9.99 6.5 17.5zm5.5-6.6c.61 0 1.1.49 1.1 1.1s-.49 1.1-1.1 1.1-1.1-.49-1.1-1.1.49-1.1 1.1-1.1z" />
       </SlottedSVG>
-      <IcSearchBar slot="search" placeholder="Search" label="Search" onIcChange={handleSearch} />
+      <IcSearchBar
+        slot="search"
+        placeholder="Search"
+        label="Search"
+        onIcChange={handleSearch}
+      />
       <IcNavigationItem slot="navigation" label="Home" href="#" />
       <IcNavigationItem slot="navigation" label="My Account" href="/account" />
     </IcTopNavigation>
-  )
+  );
 }

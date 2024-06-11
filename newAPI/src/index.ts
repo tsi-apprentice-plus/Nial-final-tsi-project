@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import app from './app';
+import app from "./app";
 import mongoose from "mongoose";
 
-import http from 'http';
+import http from "http";
 import { env } from "process";
 
 const mongoUri = env.MONGO_URI || "mongodb://localhost:27017/socialAPI";
@@ -22,7 +22,7 @@ if (require.main === module) {
 
 export function createHttpServer(port: number) {
   const httpServer: http.Server = app.listen(port, () => {
-    console.log('server started at http://localhost:' + port);
+    console.log("server started at http://localhost:" + port);
   });
 
   return httpServer;

@@ -13,15 +13,15 @@ spec:
         app: mongo
     spec:
       containers:
-      - name: mongo
-        image: mongo
-        ports:
-        - containerPort: 27017
-        volumeMounts:
-        - mountPath: /data/db
-          name: mongo-data
+        - name: mongo
+          image: mongo
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - mountPath: /data/db
+              name: mongo-data
       volumes:
-      - name: mongo-data
-        persistentVolumeClaim:
-          claimName: mongo-pvc
+        - name: mongo-data
+          persistentVolumeClaim:
+            claimName: mongo-pvc
       restartPolicy: Always

@@ -1,7 +1,6 @@
-"use client"
+"use client";
 import { IcTextField, IcButton } from "@ukic/react";
 import { createPost } from "@/utils/route";
-
 
 export default function CreatePost() {
   function handleSubmit() {
@@ -13,8 +12,13 @@ export default function CreatePost() {
     <div className="container mx-auto px-4">
       <div className="flex justify-center">
         <form>
-        <IcTextField rows={3} label="Create Post" placeholder="Please enter…" id="create-title"/>
-        <IcButton onClick={handleSubmit}>Submit</IcButton>
+          <IcTextField
+            rows={3}
+            label="Create Post"
+            placeholder="Please enter…"
+            id="create-title"
+          />
+          <IcButton onClick={handleSubmit}>Submit</IcButton>
         </form>
       </div>
     </div>
