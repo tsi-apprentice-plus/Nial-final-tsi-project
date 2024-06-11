@@ -23,6 +23,8 @@ jobs:
         run: docker compose up -d db
       - name: wait for mongodb to start
         run: sleep 45
+      - name: logs
+        run: docker logs db
       - name: Run Jest API tests
         working-directory: newAPI
         run: npm run test
