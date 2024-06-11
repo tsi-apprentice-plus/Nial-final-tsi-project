@@ -1,20 +1,20 @@
 services:
   mui:
-    build: social-api-frontend/.
+    image: ghcr.io/nmcc1212/mui-frontend
     ports:
       - "3001:3000"
     container_name: mui-frontend
     depends_on:
       - api
   icds-frontend:
-    build: icds-frontend/.
+    image: ghcr.io/nmcc1212/icds-frontend
     ports:
       - "3000:3000"
     container_name: icds-frontend
     depends_on:
       - api
   api:
-    build: newApi/.
+    image: ghcr.io/nmcc1212/social-api
     ports:
       - "3101:3101"
     depends_on:
