@@ -20,6 +20,11 @@ jobs:
         with:
           mongodb-version: latest
           mongodb-db: socialAPI
+      - name: Run API
+        working-directory: newAPI
+        run: npm run dev & 
+      - name: Wait for API to start
+        run: sleep 10
       - name: Run Jest API tests
         working-directory: newAPI
-        run: npm run dev & npm run test
+        run: npm run test
