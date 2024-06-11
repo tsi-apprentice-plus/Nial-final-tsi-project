@@ -22,7 +22,7 @@ jobs:
       - name: Run mongodb
         run: docker compose up -d db
       - name: wait for mongodb to start
-        run: docker compose exec db bash -c 'while ! mongo --eval "db.adminCommand('ping')"; do sleep 1; done'
+        run: docker compose exec db bash -c 'while ! mongosh --eval "db.adminCommand('ping')" &> /dev/null; do sleep 1; done'
       - name: Run Jest API tests
         working-directory: newAPI
         run: npm run test
