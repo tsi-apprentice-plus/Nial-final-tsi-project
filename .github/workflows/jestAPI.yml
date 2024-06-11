@@ -30,9 +30,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y mongodb-mongosh mongodb-org-tools
       - name: Load posts into MongoDB
-        run: docker exec db 'mongoimport --uri mongodb://localhost:27017/socialAPI --collection posts --file ./mongo/socialAPI.posts.json --jsonArray'
+        run: mongoimport --uri mongodb://localhost:27017/socialAPI --collection posts --file ./mongo/socialAPI.posts.json --jsonArray
       - name: Load users into MongoDB
-        run: docker exec db 'mongoimport --uri mongodb://localhost:27017/socialAPI --collection users --file ./mongo/socialAPI.users.json --jsonArray'
+        run: mongoimport --uri mongodb://localhost:27017/socialAPI --collection users --file ./mongo/socialAPI.users.json --jsonArray
       - name: Run Jest API tests
         working-directory: newAPI
         run: npm run test
