@@ -1,6 +1,16 @@
 import request from "supertest";
+import mongoose from "mongoose";
+import app from "../src/app";
 
-const baseURL = "http://localhost:3101";
+beforeEach(async () => {
+  await mongoose.connect("mongodb://localhost:27017/socialAPI");
+});
+
+afterEach(async () => {
+  await mongoose.connection.close();
+});
+
+const baseURL = app;
 
 describe("Post CRUD", () => {
   let postId: string;
