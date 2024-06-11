@@ -15,6 +15,11 @@ jobs:
       - name: Install dependencies
         working-directory: newAPI
         run: npm ci
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.11.0
+        with:
+          mongodb-version: 22
+          mongodb-db: socialAPI
       - name: Run Jest API tests
         working-directory: newAPI
         run: npm run dev & npm run test
