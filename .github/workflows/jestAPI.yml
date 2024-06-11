@@ -22,9 +22,15 @@ jobs:
         working-directory: newAPI
         run: npm ci
       - name: Run MongoDB container
-        run: docker-compose up -d db api
-      - name: Wait for api to start
-        run: sleep 30
+        run: docker-compose up -d db
+      - name: Wait for MongoDB to be ready
+        run: |
+          docker-compose logs -f db | grep -m 1 'waiting for connections on port'
+      - name: Run API container
+        run: docker-compose up -d api
+      - name: Wait for API to be ready
+        run: |
+          docker-compose logs -f api | grep -m 1 'server started at'
       - name: debug get logs
         run: docker logs api
       - name: Run Jest API tests
