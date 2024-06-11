@@ -61,7 +61,7 @@ jobs:
           npm install @microsoft/eslint-formatter-sarif
       - name: Lint
         working-directory: newAPI
-        run: npx eslint . --format @microsoft/eslint-formatter-sarif --output-file eslint-api.sarif
+        run: npx eslint . --format @microsoft/eslint-formatter-sarif --output-file eslint-api.sarif --silent
       - name: Upload analysis results to GitHub
         uses: github/codeql-action/upload-sarif@v3
         with:
