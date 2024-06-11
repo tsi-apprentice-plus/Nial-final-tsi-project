@@ -33,7 +33,7 @@ jobs:
       - name: Load users into MongoDB
         run: mongoimport --uri mongodb://localhost:27017/socialAPI --collection users --file ./mongo/socialAPI.users.json --jsonArray
       - name: Start the API
-        run: docker compose up -d api icds-frontend
+        run: docker compose -f docker/docker-compose-nodep.yml up -d api icds-frontend
       - name: Install Playwright Browsers
         working-directory: icds-frontend
         run: npx playwright install --with-deps
