@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import app from "../src/app";
 
 beforeEach(async () => {
-  await mongoose.connect("mongodb://db:27017/socialAPI");
+  await mongoose.connect("mongodb://localhost:27017/socialAPI");
 });
 
 afterEach(async () => {
