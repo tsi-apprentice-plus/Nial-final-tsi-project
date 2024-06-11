@@ -14,17 +14,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: latest
-      - name: Setup Docker
-        uses: docker/setup-buildx-action@v3
       - name: Install dependencies
         working-directory: newAPI
         run: npm ci
-      - name: Run mongodb
-        run: docker compose up -d db
-      - name: wait for mongodb to start
-        run: sleep 45
-      - name: logs
-        run: docker logs db
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.11.0
+      - name: Load posts into MongoDB
+        run: mongoimport --uri mongodb://localhost:27017/socialAPI --collection posts --file ./mongo/socialAPI.posts.json --jsonArray
+      - name: Load users into MongoDB
+        run: mongoimport --uri mongodb://localhost:27017/socialAPI --collection users --file ./mongo/socialAPI.users.json --jsonArray
       - name: Run Jest API tests
         working-directory: newAPI
         run: npm run test
