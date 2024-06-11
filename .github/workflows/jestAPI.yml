@@ -24,7 +24,7 @@ jobs:
       - name: Run MongoDB container
         run: docker-compose up -d db api
       - name: Wait for api to start
-        run: docker-compose exec api bash -c 'while ! nc -z localhost 3101; do sleep 1; done;'
+        run: sleep 15
       - name: Run Jest API tests
         working-directory: newAPI
         run: npm run test
