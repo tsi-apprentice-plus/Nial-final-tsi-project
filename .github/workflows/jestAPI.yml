@@ -21,7 +21,7 @@ jobs:
         uses: supercharge/mongodb-github-action@1.11.0
         with:
           mongodb-container-name: db
-      - name: 🍃 Install mongosh
+      - name: Install mongosh
         run: |
           sudo apt-get update
           sudo apt-get install -y wget gnupg
