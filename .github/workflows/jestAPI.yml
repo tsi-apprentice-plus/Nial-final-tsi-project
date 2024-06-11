@@ -23,9 +23,11 @@ jobs:
         run: npm ci
       - name: Run MongoDB container
         run: docker-compose up -d db
+      - name: sleep for 10 seconds
+        run: sleep 10
       - name: Wait for MongoDB to be ready
         run: |
-          docker-compose logs -f db | grep -m 1 'waiting for connections on port'
+          docker-compose logs db'
       - name: Run API container
         run: docker-compose up -d api
       - name: Wait for API to be ready
