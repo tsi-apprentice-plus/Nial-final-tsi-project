@@ -8,6 +8,7 @@ import { env } from "process";
 const mongoUri = env.MONGO_URI || "mongodb://localhost:27017/socialAPI";
 
 async function main(port: number) {
+  console.log("Connecting to MongoDB Instance at " + mongoUri + "...");
   await mongoose.connect(mongoUri);
   console.log("Connected to MongoDB");
   createHttpServer(port);
