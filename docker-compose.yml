@@ -25,7 +25,7 @@ services:
       - NODE_OPTIONS=--max_old_space_size=8192
   db:
     image: mongo
-    container_name: mongo-db
+    container_name: db
     ports:
       - "27017:27017"
     volumes:

@@ -26,8 +26,7 @@ jobs:
       - name: sleep for 10 seconds
         run: sleep 10
       - name: Wait for MongoDB to be ready
-        run: |
-          docker-compose logs db'
+        run: docker logs db
       - name: Run API container
         run: docker-compose up -d api
       - name: Wait for API to be ready
