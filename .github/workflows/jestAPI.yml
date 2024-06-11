@@ -18,7 +18,7 @@ jobs:
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.11.0
         with:
-          mongodb-version: 22
+          mongodb-version: latest
           mongodb-db: socialAPI
       - name: Run Jest API tests
         working-directory: newAPI
