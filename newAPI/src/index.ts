@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import http from 'http';
 import { env } from "process";
 
-const mongoUri = env.MONGO_URI || "mongodb://localhost:27017/socialAPI";
+const mongoUri = env.MONGO_URI || "mongodb://db:27017/socialAPI";
 
 async function main(port: number) {
   console.log("Connecting to MongoDB Instance at " + mongoUri + "...");
