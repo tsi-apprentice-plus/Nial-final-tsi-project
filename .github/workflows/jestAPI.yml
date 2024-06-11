@@ -25,13 +25,11 @@ jobs:
       - name: Run MongoDB container
         run: docker-compose up -d db
       - name: Wait for MongoDB to be ready
-        run: |
-          docker logs -f db | grep -m 1 'waiting for connections'
+        run: sleep 15
       - name: Run API container
         run: docker-compose up -d api
       - name: Wait for API to be ready
-        run: |
-          docker logs -f api | grep -m 1 'server started at'
+        run: sleep 15
       - name: debug get logs
         run: docker logs api
       - name: Run Jest API tests
