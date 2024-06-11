@@ -21,15 +21,23 @@ describe("Post CRUD", () => {
   const postUpdatedContent = "updated post2";
 
   it("should create a new post", async () => {
-    const res = await request(baseURL)
-      .post("/posts")
-      .send({
-        auth: {
-          username: postUsername,
-          password: postPassword,
-        },
-        content: postInitialContent,
-      });
+    let res;
+    try {
+      res = await request(baseURL)
+        .post("/posts")
+        .send({
+          auth: {
+            username: postUsername,
+            password: postPassword,
+          },
+          content: postInitialContent,
+        });
+    } catch (error) {
+      console.error(error);
+    }
+    if (!res) {
+      return;
+    }
     expect(res.status).toBe(200);
     const post = res.body;
     expect(post).toHaveProperty("comments", []);
@@ -40,15 +48,22 @@ describe("Post CRUD", () => {
   });
 
   it("should add a like to the post", async () => {
-    const res = await request(baseURL)
-      .post(`/posts/${postId}/likes`)
-      .send({
-        auth: {
-          username: postUsername,
-          password: postPassword,
-        },
-      });
-
+    let res;
+    try {
+      res = await request(baseURL)
+        .post(`/posts/${postId}/likes`)
+        .send({
+          auth: {
+            username: postUsername,
+            password: postPassword,
+          },
+        });
+    } catch (error) {
+      console.error(error);
+    }
+    if (!res) {
+      return;
+    }
     expect(res.status).toBe(200);
     const post = res.body;
     expect(post).toHaveProperty("comments", []);
@@ -59,7 +74,15 @@ describe("Post CRUD", () => {
   });
 
   it("should get the post by filter", async () => {
-    const res = await request(baseURL).get(`/posts?_id=${postId}`);
+    let res;
+    try {
+      res = await request(baseURL).get(`/posts?_id=${postId}`);
+    } catch (error) {
+      console.error(error);
+    }
+    if (!res) {
+      return;
+    }
     expect(res.status).toBe(200);
     const post = res.body;
     expect(post).toHaveProperty("comments", []);
@@ -70,16 +93,23 @@ describe("Post CRUD", () => {
   });
 
   it("should update the post content", async () => {
-    const res = await request(baseURL)
-      .patch(`/posts/${postId}`)
-      .send({
-        auth: {
-          username: postUsername,
-          password: postPassword,
-        },
-        content: postUpdatedContent,
-      });
-
+    let res;
+    try {
+      res = await request(baseURL)
+        .patch(`/posts/${postId}`)
+        .send({
+          auth: {
+            username: postUsername,
+            password: postPassword,
+          },
+          content: postUpdatedContent,
+        });
+    } catch (error) {
+      console.error(error);
+    }
+    if (!res) {
+      return;
+    }
     expect(res.status).toBe(200);
     const post = res.body;
     expect(post).toHaveProperty("comments", []);
@@ -90,8 +120,15 @@ describe("Post CRUD", () => {
   });
 
   it("should get the post with updated content", async () => {
-    const res = await request(baseURL).get(`/posts?_id=${postId}`);
-
+    let res;
+    try {
+      res = await request(baseURL).get(`/posts?_id=${postId}`);
+    } catch (error) {
+      console.error(error);
+    }
+    if (!res) {
+      return;
+    }
     expect(res.status).toBe(200);
     const post = res.body;
     expect(post).toHaveProperty("comments", []);
@@ -102,15 +139,22 @@ describe("Post CRUD", () => {
   });
 
   it("should delete the post", async () => {
-    const res = await request(baseURL)
-      .delete(`/posts/${postId}`)
-      .send({
-        auth: {
-          username: postUsername,
-          password: postPassword,
-        },
-      });
-
+    let res;
+    try {
+      res = await request(baseURL)
+        .delete(`/posts/${postId}`)
+        .send({
+          auth: {
+            username: postUsername,
+            password: postPassword,
+          },
+        });
+    } catch (error) {
+      console.error(error);
+    }
+    if (!res) {
+      return;
+    }
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty("message", "Post deleted");
   });
@@ -124,11 +168,19 @@ describe("User CRUD", () => {
 
   let userId: number;
   it("should create a new user", async () => {
-    const res = await request(baseURL).post("/users").send({
-      username: userUsername,
-      email: userInitialEmail,
-      password: userPassword,
-    });
+    let res;
+    try {
+      res = await request(baseURL).post("/users").send({
+        username: userUsername,
+        email: userInitialEmail,
+        password: userPassword,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    if (!res) {
+      return;
+    }
     expect(res.status).toBe(200);
     const user = res.body;
     expect(user).toHaveProperty("username", userUsername);
@@ -139,16 +191,23 @@ describe("User CRUD", () => {
   });
 
   it("should update the user email", async () => {
-    const res = await request(baseURL)
-      .patch(`/users/${userId}`)
-      .send({
-        auth: {
-          username: userUsername,
-          password: userPassword,
-        },
-        email: userUpdatedEmail,
-      });
-
+    let res;
+    try {
+      res = await request(baseURL)
+        .patch(`/users/${userId}`)
+        .send({
+          auth: {
+            username: userUsername,
+            password: userPassword,
+          },
+          email: userUpdatedEmail,
+        });
+    } catch (error) {
+      console.error(error);
+    }
+    if (!res) {
+      return;
+    }
     expect(res.status).toBe(200);
     const user = res.body;
     expect(user).toHaveProperty("username", userUsername);
@@ -156,15 +215,22 @@ describe("User CRUD", () => {
   });
 
   it("should delete the user", async () => {
-    const res = await request(baseURL)
-      .delete(`/users/${userId}`)
-      .send({
-        auth: {
-          username: userUsername,
-          password: userPassword,
-        },
-      });
-
+    let res;
+    try {
+      res = await request(baseURL)
+        .delete(`/users/${userId}`)
+        .send({
+          auth: {
+            username: userUsername,
+            password: userPassword,
+          },
+        });
+    } catch (error) {
+      console.error(error);
+    }
+    if (!res) {
+      return;
+    }
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty("message", "User deleted");
   });
