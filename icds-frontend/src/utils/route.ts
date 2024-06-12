@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import { env } from "process";
-// const BASE_URL = "http://localhost:3101";
-const BASE_URL = env.API_URL || "http://localhost:3101";
+
+const BASE_URL = env.API_URL ?? "http://localhost:3101";
 
 type auth = {
   username: string;
@@ -62,9 +62,11 @@ export async function likePost(postId: Types.ObjectId) {
 }
 
 export const getPosts = async (postId = "") => {
-  const response = await fetch(
-    `${BASE_URL}/posts${postId ? `?_id=${postId}` : ""}`,
-  );
+  let url = `${BASE_URL}/posts`;
+  if (postId) {
+    url += `?_id=${postId}`;
+  }
+  const response = await fetch(url);
   return response.json();
 };
 
@@ -84,7 +86,7 @@ export const getPostSearchPaged = async (
   search?: string,
 ) => {
   const response = await fetch(
-    `${BASE_URL}/posts?limit=${limit}&page=${page}&search=${search}`,
+      BASE_URL + "/posts?limit=" + limit + "&page=" + page + "&search=" + search,
   );
   return response.json();
 };
