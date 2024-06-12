@@ -1,15 +1,11 @@
 import {
-  Avatar,
-  Button,
   Box,
   Card,
-  CardActionArea,
   CardContent,
   CardHeader,
   Typography,
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { likePost, unlikePost } from "@/utils/route";
 import formatNumber from "@/utils/formatNumber";
@@ -32,7 +28,7 @@ export async function handleLike(postId: Post["_id"], likeClicked: boolean) {
   }
 }
 
-export default function PostCard(post: Post) {
+export default function PostCard(post: Readonly<Post>) {
   return (
     <Card key={post._id?.toString()} className="bg-white shadow-md rounded-lg">
       <CardHeader

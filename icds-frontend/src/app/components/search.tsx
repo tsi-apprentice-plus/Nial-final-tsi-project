@@ -6,7 +6,6 @@ import {
   IcTopNavigation,
   SlottedSVG,
   IcSearchBar,
-  IcNavigationButton,
   IcNavigationItem,
 } from "@ukic/react";
 export default function Search() {

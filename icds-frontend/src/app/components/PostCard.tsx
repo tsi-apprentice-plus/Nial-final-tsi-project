@@ -7,7 +7,6 @@ import {
   mdiCommentOutline,
   mdiThumbUpOutline,
   mdiThumbUp,
-  mdiComment,
   mdiAccount,
 } from "@mdi/js";
 import { useState } from "react";
@@ -20,7 +19,7 @@ dayjs.locale("en");
 
 import { likePost, unlikePost } from "@/utils/route";
 
-export default function PostCard(post: Post) {
+export default function PostCard(post: Readonly<Post>) {
   const userliked = post.likes.some((like) => Number(like.userID) === 99);
 
   const [liked, setLiked] = useState<boolean>(userliked);
@@ -31,9 +30,9 @@ export default function PostCard(post: Post) {
     setLiked(newliked);
     if (!post._id) return;
     if (newliked) {
-      const res = await likePost(post._id);
+      await likePost(post._id);
     } else {
-      const res = await unlikePost(post._id);
+      await unlikePost(post._id);
     }
     setLikeCount(newliked ? likeCount + 1 : likeCount - 1);
   }

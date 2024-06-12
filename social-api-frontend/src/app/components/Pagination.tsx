@@ -8,7 +8,7 @@ import Link from "next/link";
 type Props = {
   postLength: number;
 };
-export default function Pagination(postLength: Props) {
+export default function Pagination(postLength: Readonly<Props>) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;

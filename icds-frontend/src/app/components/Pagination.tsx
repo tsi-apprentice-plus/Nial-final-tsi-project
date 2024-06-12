@@ -6,7 +6,7 @@ interface PaginationProps {
   pages: number;
 }
 
-export default function Pagination({ pages }: PaginationProps) {
+export default function Pagination({ pages }: Readonly<PaginationProps>) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

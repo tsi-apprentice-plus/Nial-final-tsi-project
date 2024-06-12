@@ -12,7 +12,7 @@ type Props = {
   post: Post;
 };
 
-export default function LikeButton({ post }: Props) {
+export default function LikeButton({ post }: Readonly<Props>) {
   const userliked = post.likes.some((like) => Number(like.userID) === 99);
 
   const [liked, setLiked] = useState<boolean>(userliked);

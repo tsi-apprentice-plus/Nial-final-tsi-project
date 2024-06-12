@@ -7,8 +7,7 @@ interface Props {
   searchParams: { page?: number };
 }
 
-export default async function AccountPage({ searchParams }: Props) {
-  const { page } = searchParams;
+export default async function AccountPage({ searchParams }: Readonly<Props>) {
   const posts: Posts = await getPosts();
   const usersPosts = posts.filter((post) => post.userID === 99);
   return (
