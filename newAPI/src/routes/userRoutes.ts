@@ -81,30 +81,37 @@ userRouter.patch(
     if (!req.user) {
       return res.status(401).json({ message: "Unauthorized" });
     }
-    if (!req.body.username && !req.body.email && !req.body.password) {
+    const { username, email, password } = req.body;
+    const fieldsToUpdate = Object.keys(req.body);
+
+    if (!username && !email && !password) {
       return res.status(400).json({ message: "No fields to update" });
     }
-    if (req.body.length > 1) {
+
+    if (fieldsToUpdate.length > 1) {
       return res
         .status(400)
         .json({ message: "Only one field can be updated at a time" });
     }
+
     const user = await User.findOne({ id: req.user.id });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    if (req.body.username) {
-      user.username = req.body.username;
-    } else if (req.body.email) {
-      user.email = req.body.email;
-    } else if (req.body.password) {
-      user.password = await bcrypt.hash(req.body.password, 10);
+
+    if (username) {
+      user.username = username;
+    } else if (email) {
+      user.email = email;
+    } else if (password) {
+      user.password = await bcrypt.hash(password, 10);
     } else {
       return res.status(400).json({ message: "No fields to update" });
     }
+
     const updatedUser = await user.save();
     res.json(updatedUser);
-  },
+  }
 );
 
 // must have username and password in auth
@@ -126,7 +133,7 @@ userRouter.delete(
     }
     await user.deleteOne();
     res.json({ message: "User deleted" });
-  },
+  }
 );
 
 export default userRouter;
