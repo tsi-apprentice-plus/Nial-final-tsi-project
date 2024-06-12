@@ -45,11 +45,11 @@ postRouter.get("/", GetValidation, async (req: Request, res: Response) => {
     return res.json(posts);
   }
   if (req.query.userID !== undefined) {
-    const posts = await Post.find({ userID: req.query.userID });
+    const posts = await Post.find({ userID: { $eq: req.query.userID } });
     return res.json(posts);
   }
   if (req.query._id !== undefined) {
-    const post = await Post.findOne({ _id: req.query._id });
+    const post = await Post.findOne({ _id: { $eq: req.body._id } });
     return res.json(post);
   }
   if (req.query.search !== undefined) {
@@ -80,7 +80,7 @@ postRouter.delete(
       if (!req.user) {
         return res.status(401).json({ message: "Unauthorized" });
       }
-      const post = await Post.findOne({ _id: _id });
+      const post = await Post.findOne({ _id: { $eq: _id } });
       if (!post) {
         return res.status(404).json({ message: "Post not found" });
       }
@@ -121,7 +121,7 @@ postRouter.patch(
     try {
       const _id = req.params._id;
       const content = req.body.content;
-      const post = await Post.findOne({ _id });
+      const post = await Post.findOne({ _id: { $eq: _id } });
       if (!post) {
         return res.status(404).json({ message: "Post not found" });
       }
@@ -189,7 +189,7 @@ postRouter.post(
       }
 
       const userID = req.user.id;
-      const post = await Post.findOne({ _id });
+      const post = await Post.findOne({ _id: { $eq: _id } });
       if (!post) {
         return res.status(404).json({ message: "Post not found" });
       }
@@ -221,7 +221,7 @@ postRouter.delete(
       }
       const userID = req.user.id;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const post: any = await Post.findOne({ _id });
+      const post: any = await Post.findOne({ _id: { $eq: _id } });
       if (!post) {
         return res.status(404).json({ message: "Post not found" });
       }

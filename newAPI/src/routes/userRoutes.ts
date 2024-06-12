@@ -23,11 +23,11 @@ userRouter.post("/", PostValidation, async (req: Request, res: Response) => {
   const plainPassword = req.body.password;
   const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
-  const usernameExists = await User.findOne({ username });
+  const usernameExists = await User.findOne({ username: { $eq: username } });
   if (usernameExists) {
     return res.status(400).json({ message: "username already exists" });
   }
-  const emailExists = await User.findOne({ email });
+  const emailExists = await User.findOne({ email: { $eq: email } });
   if (emailExists) {
     return res.status(400).json({ message: "email already exists" });
   }
@@ -51,16 +51,16 @@ userRouter.get("/", GetValidation, async (req: Request, res: Response) => {
     return res.status(400).json({ errors: errors.array() });
   }
   if (req.query._id !== undefined) {
-    const users = await User.find({ _id: req.query._id });
+    const users = await User.find({ _id: { $eq: req.query._id } });
     return res.json(users);
   } else if (req.query.email !== undefined) {
-    const users = await User.find({ email: req.query.email });
+    const users = await User.find({ email: { $eq: req.query.email } });
     return res.json(users);
   } else if (req.query.username !== undefined) {
-    const users = await User.find({ username: req.query.username });
+    const users = await User.find({ username: { $eq: req.query.username } });
     return res.json(users);
   } else if (req.query.id !== undefined) {
-    const users = await User.find({ id: req.query.id });
+    const users = await User.find({ id: { $eq: req.query.id } });
     return res.json(users);
   } else {
     const users = await User.find();
@@ -120,7 +120,7 @@ userRouter.delete(
     if (!req.user) {
       return res.status(401).json({ message: "Unauthorized" });
     }
-    const user = await User.findOne({ id: req.user.id });
+    const user = await User.findOne({ id: { $eq: req.user.id } });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
