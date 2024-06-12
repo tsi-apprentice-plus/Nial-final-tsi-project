@@ -15,7 +15,7 @@ export const PostValidation = [
 ];
 
 export const GetValidation = [
-  query("username").optional(),
+  query("username").isString().optional(),
   query("id").optional().isInt().withMessage("Invalid id format"),
   query("_id").optional().isMongoId().withMessage("Invalid _id format"),
   query("email").optional().isEmail().withMessage("Invalid email format"),
