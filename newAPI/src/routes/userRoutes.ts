@@ -40,16 +40,6 @@ userRouter.post("/", PostValidation, async (req: Request, res: Response) => {
     email: email,
     password: hashedPassword,
   });
-  console.log(
-    "Created new user: ",
-    user,
-    "with id: ",
-    user.id,
-    "and email: ",
-    user.email,
-    "and password: ",
-    user.password,
-  );
   const newUser = await user.save();
   res.json(newUser);
 });
