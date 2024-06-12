@@ -49,7 +49,7 @@ postRouter.get("/", GetValidation, async (req: Request, res: Response) => {
     return res.json(posts);
   }
   if (req.query._id !== undefined) {
-    const post = await Post.findOne({ _id: { $eq: req.body._id } });
+    const post = await Post.findOne({ _id: { $eq: req.query._id } });
     return res.json(post);
   }
   if (req.query.search !== undefined) {
