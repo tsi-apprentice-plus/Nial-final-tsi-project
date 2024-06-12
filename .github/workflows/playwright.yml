@@ -17,7 +17,7 @@ jobs:
         working-directory: icds-frontend
         run: npm ci
       - name: Start the API
-        run: docker compose -f docker/docker-compose-nodep.yml up -d
+        run: docker compose up -d
       - name: Install Playwright Browsers
         working-directory: icds-frontend
         run: npx playwright install --with-deps
