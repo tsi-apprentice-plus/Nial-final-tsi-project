@@ -82,8 +82,11 @@ userRouter.patch(
       return res.status(401).json({ message: "Unauthorized" });
     }
     const { username, email, password } = req.body;
-    const userFields: { [key: string]: any } = { username, email, password };
-    const fieldsToUpdate = Object.keys(userFields).filter(field => userFields[field] !== undefined);
+
+    const userFields: { [key: string]: string } = { username, email, password };
+    const fieldsToUpdate = Object.keys(userFields).filter(
+      (field) => userFields[field] !== undefined,
+    );
 
     if (!username && !email && !password) {
       return res.status(400).json({ message: "No fields to update" });
@@ -112,7 +115,7 @@ userRouter.patch(
 
     const updatedUser = await user.save();
     res.json(updatedUser);
-  }
+  },
 );
 
 // must have username and password in auth
@@ -134,7 +137,7 @@ userRouter.delete(
     }
     await user.deleteOne();
     res.json({ message: "User deleted" });
-  }
+  },
 );
 
 export default userRouter;
