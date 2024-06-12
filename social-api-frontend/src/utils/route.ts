@@ -60,9 +60,8 @@ export async function likePost(postId: Types.ObjectId) {
 }
 
 export const getPosts = async (postId = "") => {
-  const response = await fetch(
-    `${BASE_URL}/posts${postId ? `?_id=${postId}` : ""}`,
-  );
+  const url = `${BASE_URL}/posts${postId ? "?_id=" + postId : ""}`;
+  const response = await fetch(url);
   return response.json();
 };
 
@@ -84,9 +83,14 @@ export const getPostSearchPaged = async (
   page: number,
   search?: string,
 ) => {
-  const response = await fetch(
-    `${BASE_URL}/posts?limit=${limit}&page=${page}&search=${search}`,
-  );
+  const queryParams = new URLSearchParams();
+  queryParams.append("limit", limit.toString());
+  queryParams.append("page", page.toString());
+  if (search) {
+      queryParams.append("search", search);
+  }
+  const url = `${BASE_URL}/posts?${queryParams.toString()}`;
+  const response = await fetch(url);
   return response.json();
 };
 
@@ -118,9 +122,8 @@ export const createUser = async (data: CreateUser) => {
 };
 
 export const getUser = async (username = "") => {
-  const response = await fetch(
-    `${BASE_URL}/users${username ? `?username=${username}` : ""}`,
-  );
+  const url = `${BASE_URL}/users${username ? "?username=" + username : ""}`;
+  const response = await fetch(url);
   return response.json();
 };
 
