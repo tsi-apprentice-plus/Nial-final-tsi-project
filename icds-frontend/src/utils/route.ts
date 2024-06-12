@@ -86,7 +86,7 @@ export const getPostSearchPaged = async (
   search?: string,
 ) => {
   const response = await fetch(
-    BASE_URL + "/posts?limit=" + limit + "&page=" + page + "&search=" + search
+    BASE_URL + "/posts?limit=" + limit + "&page=" + page + "&search=" + search,
   );
   return response.json();
 };

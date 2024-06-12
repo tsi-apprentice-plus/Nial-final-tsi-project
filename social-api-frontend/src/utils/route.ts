@@ -87,7 +87,7 @@ export const getPostSearchPaged = async (
   queryParams.append("limit", limit.toString());
   queryParams.append("page", page.toString());
   if (search) {
-      queryParams.append("search", search);
+    queryParams.append("search", search);
   }
   const url = `${BASE_URL}/posts?${queryParams.toString()}`;
   const response = await fetch(url);
