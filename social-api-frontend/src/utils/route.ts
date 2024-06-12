@@ -1,4 +1,4 @@
-import { Number, Types } from "mongoose";
+import { Types } from "mongoose";
 const BASE_URL = "http://localhost:3101";
 
 type auth = {
@@ -67,7 +67,10 @@ export const getPosts = async (postId = "") => {
 };
 
 export const getPostsPaged = async (limit: number, page: number) => {
-  const response = await fetch(`${BASE_URL}/posts?limit=${limit}&page=${page}`);
+  const queryParams = new URLSearchParams();
+  queryParams.append("limit", limit.toString());
+  queryParams.append("page", page.toString());
+  const response = await fetch(`${BASE_URL}/posts?${queryParams.toString()}`);
   return response.json();
 };
 

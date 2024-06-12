@@ -9,10 +9,10 @@ interface Props {
   searchParams: { query?: string; page?: number };
 }
 
-export default async function Homepage({ searchParams }: Props) {
+export default async function Homepage({ searchParams }: Readonly<Props>) {
   console.log("my params are", searchParams);
   const { query, page } = searchParams;
-  const posts: Posts = await getPostSearchPaged(25, page || 1, query || "");
+  const posts: Posts = await getPostSearchPaged(25, page ?? 1, query ?? "");
   const postLength = posts.length;
   return (
     <div>
