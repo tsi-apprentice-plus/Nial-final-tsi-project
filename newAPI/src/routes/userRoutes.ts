@@ -82,7 +82,8 @@ userRouter.patch(
       return res.status(401).json({ message: "Unauthorized" });
     }
     const { username, email, password } = req.body;
-    const fieldsToUpdate = Object.keys(req.body);
+    const userFields: { [key: string]: any } = { username, email, password };
+    const fieldsToUpdate = Object.keys(userFields).filter(field => userFields[field] !== undefined);
 
     if (!username && !email && !password) {
       return res.status(400).json({ message: "No fields to update" });
