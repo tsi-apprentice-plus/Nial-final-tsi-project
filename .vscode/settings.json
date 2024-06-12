@@ -1,1 +1,6 @@
-{}
+{
+  "sonarlint.connectedMode.project": {
+    "connectionId": "macbook",
+    "projectKey": "nmcc1212_final-tsi-project_AZAJtJKf53BaNROXP0IR"
+  }
+}

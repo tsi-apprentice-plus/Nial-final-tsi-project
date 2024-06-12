@@ -47,9 +47,9 @@ userRouter.post("/", PostValidation, async (req: Request, res: Response) => {
     user.id,
     "and email: ",
     user.email,
-  ),
     "and password: ",
-    user.password;
+    user.password,
+  );
   const newUser = await user.save();
   res.json(newUser);
 });
