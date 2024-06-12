@@ -31,6 +31,8 @@ jobs:
           file: newAPI/Dockerfile
           push: true
           tags: ghcr.io/nmcc1212/social-api:latest
+          cache-from: type=gha
+          cache-to: type=gha
 
   build-icds:
     runs-on: ubuntu-latest
@@ -56,6 +58,8 @@ jobs:
           file: icds-frontend/Dockerfile
           push: true
           tags: ghcr.io/nmcc1212/icds-frontend:latest
+          cache-from: type=gha
+          cache-to: type=gha
 
   build-mui:
     runs-on: ubuntu-latest
@@ -81,3 +85,5 @@ jobs:
           file: social-api-frontend/Dockerfile
           push: true
           tags: ghcr.io/nmcc1212/mui-frontend:latest
+          cache-from: type=gha
+          cache-to: type=gha
