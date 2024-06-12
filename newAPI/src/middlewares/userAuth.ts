@@ -24,7 +24,7 @@ async function authenticateUser(
     if (!password) {
       return res.status(400).json({ message: "Password is required" });
     }
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username: { $eq: username }});
 
     if (!user) {
       console.log("User not found");
