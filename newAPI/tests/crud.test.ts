@@ -10,8 +10,6 @@ afterEach(async () => {
   await mongoose.connection.close();
 });
 
-const baseURL = app;
-
 describe("Post CRUD", () => {
   let postId: string;
   const postUserID = 4;
@@ -23,7 +21,7 @@ describe("Post CRUD", () => {
   it("should create a new post", async () => {
     let res;
     try {
-      res = await request(baseURL)
+      res = await request(app)
         .post("/posts")
         .send({
           auth: {
@@ -50,7 +48,7 @@ describe("Post CRUD", () => {
   it("should add a like to the post", async () => {
     let res;
     try {
-      res = await request(baseURL)
+      res = await request(app)
         .post(`/posts/${postId}/likes`)
         .send({
           auth: {
@@ -76,7 +74,7 @@ describe("Post CRUD", () => {
   it("should get the post by filter", async () => {
     let res;
     try {
-      res = await request(baseURL).get(`/posts?_id=${postId}`);
+      res = await request(app).get(`/posts?_id=${postId}`);
     } catch (error) {
       console.error(error);
     }
@@ -95,7 +93,7 @@ describe("Post CRUD", () => {
   it("should update the post content", async () => {
     let res;
     try {
-      res = await request(baseURL)
+      res = await request(app)
         .patch(`/posts/${postId}`)
         .send({
           auth: {
@@ -122,7 +120,7 @@ describe("Post CRUD", () => {
   it("should get the post with updated content", async () => {
     let res;
     try {
-      res = await request(baseURL).get(`/posts?_id=${postId}`);
+      res = await request(app).get(`/posts?_id=${postId}`);
     } catch (error) {
       console.error(error);
     }
@@ -141,7 +139,7 @@ describe("Post CRUD", () => {
   it("should delete the post", async () => {
     let res;
     try {
-      res = await request(baseURL)
+      res = await request(app)
         .delete(`/posts/${postId}`)
         .send({
           auth: {
@@ -170,7 +168,7 @@ describe("User CRUD", () => {
   it("should create a new user", async () => {
     let res;
     try {
-      res = await request(baseURL).post("/users").send({
+      res = await request(app).post("/users").send({
         username: userUsername,
         email: userInitialEmail,
         password: userPassword,
@@ -193,7 +191,7 @@ describe("User CRUD", () => {
   it("should update the user email", async () => {
     let res;
     try {
-      res = await request(baseURL)
+      res = await request(app)
         .patch(`/users/${userId}`)
         .send({
           auth: {
@@ -217,7 +215,7 @@ describe("User CRUD", () => {
   it("should delete the user", async () => {
     let res;
     try {
-      res = await request(baseURL)
+      res = await request(app)
         .delete(`/users/${userId}`)
         .send({
           auth: {
