@@ -37,7 +37,7 @@ export default function PostCard(post: Readonly<Post>) {
     setLikeCount(newliked ? likeCount + 1 : likeCount - 1);
   }
   return (
-    <div>
+    <div data-testid="post-item">
       <IcCard
         heading={String(post.userID)}
         subheading={dayjs(post.timestamp).fromNow()}
