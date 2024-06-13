@@ -57,7 +57,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           file: icds-frontend/Dockerfile
           push: true
-          tags: ghcr.io/nmcc1212/icds-frontend:v1
+          tags: ghcr.io/nmcc1212/icds-frontend:v1, ghcr.io/nmcc1212/icds-frontend:latest
           cache-from: type=gha
           cache-to: type=gha
 
