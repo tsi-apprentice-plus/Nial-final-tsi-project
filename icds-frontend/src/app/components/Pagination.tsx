@@ -28,12 +28,12 @@ export default function Pagination({ pages }: Readonly<PaginationProps>) {
   }
   return (
     <div className="flex justify-center">
-    <IcPagination
-      onIcPageChange={(e) => changePage(e.detail.value)}
-      pages={pages}
-      currentPage={getCurrentPage()}
-      className="flex justify-center w-fit"
-    />
+      <IcPagination
+        onIcPageChange={(e) => changePage(e.detail.value)}
+        pages={pages}
+        currentPage={getCurrentPage()}
+        className="flex justify-center w-fit"
+      />
     </div>
   );
 }
