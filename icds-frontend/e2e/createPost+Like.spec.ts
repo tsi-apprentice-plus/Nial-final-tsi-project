@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { v4 } from "uuid";
 
-test("test", async ({ page }) => {
+test("Create Post, Search and Like", async ({ page }) => {
   const testuuid = v4();
   await page.goto("http://localhost:3000/");
   await page.getByLabel("Create Post").click();
