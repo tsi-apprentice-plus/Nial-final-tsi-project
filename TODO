@@ -1,3 +1,1 @@
 Create dynamic route for post, with interface for comments
-use supertest in newAPI/tests/crud.test.ts
-fix lint errors in newAPI
