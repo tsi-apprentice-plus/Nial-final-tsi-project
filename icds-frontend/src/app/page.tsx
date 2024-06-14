@@ -18,6 +18,7 @@ export default async function Homepage({ searchParams }: Readonly<Props>) {
     <div>
       <Search />
       <CreatePost />
+      <br />
       <PostsList posts={posts} />
       <br />
       <Pagination pages={pages} />

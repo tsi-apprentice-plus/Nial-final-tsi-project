@@ -1,8 +1,9 @@
 import { Types } from "mongoose";
-type Comments = {
+export type Comments = {
   userID: string;
   timestamp: Date;
   content: string;
+  _id: Types.ObjectId;
 };
 
 type Likes = {

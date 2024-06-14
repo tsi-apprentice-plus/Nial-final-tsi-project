@@ -9,6 +9,7 @@ import {
   PatchValidation,
   PostValidation,
   LikesValidation,
+  CommentValidation,
 } from "../utils/postValidations";
 
 // returns all posts, can filter by userID or _id
@@ -231,6 +232,38 @@ postRouter.delete(
       post.likes = post.likes.filter((like: Like) => like.userID !== userID);
       const unlikedPost = await post.save();
       res.json(unlikedPost);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+      console.error(error);
+    }
+  },
+);
+
+postRouter.post(
+  "/:_id/comments",
+  CommentValidation,
+  authenticateUser,
+  async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    try {
+      const _id = req.params._id;
+      if (!req.user) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const userID = req.user.id;
+      const post = await Post.findOne({ _id: { $eq: _id } });
+      if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+      }
+      const timestamp = new Date();
+      const content = req.body.content;
+      post.comments.push({ userID: userID, content: content, timestamp });
+      const commentedPost = await post.save();
+      res.json(commentedPost);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
       console.error(error);

@@ -20,3 +20,4 @@ export const PostValidation = [
   body("content").notEmpty().withMessage("Content is required"),
 ];
 export const LikesValidation = [_idValidation, ...authValidation];
+export const CommentValidation = [_idValidation, ...authValidation, body("content").notEmpty().withMessage("Content is required")];

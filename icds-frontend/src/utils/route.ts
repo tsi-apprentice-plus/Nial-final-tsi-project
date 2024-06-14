@@ -61,10 +61,10 @@ export async function likePost(postId: Types.ObjectId) {
   return response.json();
 }
 
-export const getPosts = async (postId = "") => {
+export const getPosts = async (post_id = "") => {
   let url = `${BASE_URL}/posts`;
-  if (postId) {
-    url += `?_id=${postId}`;
+  if (post_id) {
+    url += `?_id=${post_id}`;
   }
   const response = await fetch(url);
   return response.json();
@@ -150,3 +150,12 @@ export const unlikePost = async (postId: Types.ObjectId, data?: DeletePost) => {
   });
   return response.json();
 };
+
+export const createComment = async (postId: Types.ObjectId, content: string) => {
+  const response = await fetch(`${BASE_URL}/posts/${postId}/comments`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ content, auth }),
+  });
+  return response.json();
+}
