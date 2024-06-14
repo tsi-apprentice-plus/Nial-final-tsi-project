@@ -74,7 +74,7 @@ describe("Post CRUD", () => {
   it("should get the post by filter", async () => {
     let res;
     try {
-      res = await request(app).get(`/posts?_id=${postId}`);
+      res = await request(app).get(`/posts/${postId}`);
     } catch (error) {
       console.error(error);
     }
@@ -88,6 +88,7 @@ describe("Post CRUD", () => {
     expect(post.likes.length).toBeGreaterThan(0);
     expect(post).toHaveProperty("content", postInitialContent);
     expect(post).toHaveProperty("userID", postUserID);
+    expect(post).toHaveProperty("username", postUsername);
   });
 
   it("should update the post content", async () => {
@@ -114,13 +115,12 @@ describe("Post CRUD", () => {
     expect(post).toHaveProperty("likes");
     expect(post.likes.length).toBeGreaterThan(0);
     expect(post).toHaveProperty("content", postUpdatedContent);
-    expect(post).toHaveProperty("userID", postUserID);
   });
 
   it("should get the post with updated content", async () => {
     let res;
     try {
-      res = await request(app).get(`/posts?_id=${postId}`);
+      res = await request(app).get(`/posts/${postId}`);
     } catch (error) {
       console.error(error);
     }
@@ -134,6 +134,7 @@ describe("Post CRUD", () => {
     expect(post.likes.length).toBeGreaterThan(0);
     expect(post).toHaveProperty("content", postUpdatedContent);
     expect(post).toHaveProperty("userID", postUserID);
+    expect(post).toHaveProperty("username", postUsername);
   });
 
   it("should delete the post", async () => {
