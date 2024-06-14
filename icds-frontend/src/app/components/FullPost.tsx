@@ -1,6 +1,6 @@
 "use client";
 import { Comments, Post } from "@/types/post";
-import { IcButton, IcTypography } from "@ukic/react";
+import { IcButton, IcTypography, IcLink } from "@ukic/react";
 import { likePost, unlikePost } from "@/utils/route";
 import { useState } from "react";
 import Icon from "@mdi/react";
@@ -32,11 +32,12 @@ export default function FullPost(post: Readonly<Post>) {
     }
     setLikeCount(newliked ? likeCount + 1 : likeCount - 1);
   }
+
   return (
     <div className="px-4 py-3 max-w-7xl">
       <div className="bg-white p-4 rounded-lg shadow-md mb-4">
         <div className="">
-          <IcTypography variant="h4">User {post.userID}</IcTypography>
+          <IcLink href={`/account/${post.userID}`} >User {post.userID}</IcLink>
           <IcTypography>{post.content}</IcTypography>
           <br />
           <IcTypography variant="caption">
