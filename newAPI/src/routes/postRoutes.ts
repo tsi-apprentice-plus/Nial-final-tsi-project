@@ -1,10 +1,12 @@
 import { Router, Response, Request } from "express";
 import { validationResult } from "express-validator";
 import Post from "../schemas/postsSchema";
+import User from "../schemas/usersSchema";
 import authenticateUser from "../middlewares/userAuth";
 const postRouter = Router();
 import {
   GetValidation,
+  GetSingleValidation,
   DeleteValidation,
   PatchValidation,
   PostValidation,
@@ -12,8 +14,49 @@ import {
   CommentValidation,
 } from "../utils/postValidations";
 
+import { IPost } from "../types/post";
+
+interface IPostWithUsername extends IPost {
+  username: string;
+}
+
+async function addUsernameToPost(post: IPost): Promise<IPost> {
+  const user = await User.findOne({ id: { $eq: post.userID } });
+  if (!user) {
+    return { ...post, username: "Unknown" } as IPostWithUsername;
+  }
+  return { ...post, username: user.username } as IPostWithUsername;
+}
+
+postRouter.get(
+  "/:_id",
+  GetSingleValidation,
+  async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    if (!req.params._id) {
+      return res.status(400).json({ message: "_id is required" });
+    }
+    try {
+      const _id = req.params._id;
+      const post = await Post.findOne({ _id: { $eq: _id } });
+      if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+      }
+      const postWithUsername = await addUsernameToPost(post.toObject());
+      return res.json(postWithUsername);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+      console.error(error);
+    }
+  }
+);
+
 // returns all posts, can filter by userID or _id
 postRouter.get("/", GetValidation, async (req: Request, res: Response) => {
+  let posts;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -26,42 +69,38 @@ postRouter.get("/", GetValidation, async (req: Request, res: Response) => {
     const limit = parseInt(req.query.limit as string);
     const page = parseInt(req.query.page as string);
     const search = req.query.search;
-    const posts = await Post.find({
+    posts = await Post.find({
       content: { $regex: search, $options: "i" },
     })
       .limit(limit)
       .skip(limit * (page - 1));
-    return res.json(posts);
-  }
-  if (
+  } else if (
     req.query.limit !== undefined &&
     req.query.page !== undefined &&
     req.query.search === undefined
   ) {
     const limit = parseInt(req.query.limit as string);
     const page = parseInt(req.query.page as string);
-    const posts = await Post.find()
+    posts = await Post.find()
       .limit(limit)
       .skip(limit * (page - 1));
-    return res.json(posts);
-  }
-  if (req.query.userID !== undefined) {
-    const posts = await Post.find({ userID: { $eq: req.query.userID } });
-    return res.json(posts);
-  }
-  if (req.query._id !== undefined) {
-    const post = await Post.findOne({ _id: { $eq: req.query._id } });
-    return res.json(post);
-  }
-  if (req.query.search !== undefined) {
+  } else if (req.query.userID !== undefined) {
+    posts = await Post.find({ userID: { $eq: req.query.userID } });
+  } else if (req.query.search !== undefined) {
     const search = req.query.search;
-    const posts = await Post.find({
+    posts = await Post.find({
       content: { $regex: search, $options: "i" },
     });
-    return res.json(posts);
+  } else {
+    posts = await Post.find();
   }
-  const posts = await Post.find();
-  return res.json(posts);
+  if (!posts) {
+    return res.status(404).json({ message: "Posts not found" });
+  }
+  const postsWithUsername = await Promise.all(
+    posts.map((post) => addUsernameToPost(post.toObject()))
+  );
+  res.json(postsWithUsername);
 });
 
 postRouter.delete(
@@ -100,7 +139,7 @@ postRouter.delete(
       res.status(500).json({ message: "Internal server error" });
       console.error(error);
     }
-  },
+  }
 );
 
 //  auth required, _id required in url, content required in body,returns updated post
@@ -139,7 +178,7 @@ postRouter.patch(
       res.status(500).json({ message: "Internal server error" });
       console.error(error);
     }
-  },
+  }
 );
 
 // content required in body, returns created post
@@ -170,7 +209,7 @@ postRouter.post(
       res.status(500).json({ message: "Internal server error" });
       console.error(error);
     }
-  },
+  }
 );
 
 // auth required, _id required in params, gets userID thru auth, returns liked post
@@ -202,7 +241,7 @@ postRouter.post(
       res.status(500).json({ message: "Internal server error" });
       console.error(error);
     }
-  },
+  }
 );
 
 type Like = {
@@ -236,7 +275,7 @@ postRouter.delete(
       res.status(500).json({ message: "Internal server error" });
       console.error(error);
     }
-  },
+  }
 );
 
 postRouter.post(
@@ -268,7 +307,7 @@ postRouter.post(
       res.status(500).json({ message: "Internal server error" });
       console.error(error);
     }
-  },
+  }
 );
 
 export default postRouter;

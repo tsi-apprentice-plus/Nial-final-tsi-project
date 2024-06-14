@@ -1,7 +1,7 @@
 "use client";
 
 import { IcCard, IcButton } from "@ukic/react";
-import { Post } from "@/types/post";
+import { PostWithUsername } from "@/types/post";
 import Icon from "@mdi/react";
 import { Types } from "mongoose";
 import {
@@ -22,7 +22,7 @@ dayjs.locale("en");
 import { likePost, unlikePost, deletePost } from "@/utils/route";
 
 interface PostCardProps {
-  post: Readonly<Post>;
+  post: Readonly<PostWithUsername>;
   showDelete?: boolean;
 }
 
@@ -58,7 +58,7 @@ export default function PostCard({
   return (
     <div data-testid="post-item">
       <IcCard
-        heading={String(post.userID)}
+        heading={`@${String(post.username)}`}
         subheading={dayjs(post.timestamp).fromNow()}
         message={post.content}
         className="bg-white shadow-md rounded-lg"

@@ -1,5 +1,5 @@
 "use client";
-import { Comments, Post } from "@/types/post";
+import { Comments, PostWithUsername } from "@/types/post";
 import { IcButton, IcTypography, IcLink } from "@ukic/react";
 import { likePost, unlikePost } from "@/utils/route";
 import { useState } from "react";
@@ -14,7 +14,7 @@ import CommentForm from "./CommentForm";
 dayjs.extend(relativeTime);
 dayjs.locale("en");
 
-export default function FullPost(post: Readonly<Post>) {
+export default function FullPost(post: Readonly<PostWithUsername>) {
   const userliked = post.likes.some((like) => Number(like.userID) === 99);
 
   const [liked, setLiked] = useState<boolean>(userliked);
@@ -37,7 +37,7 @@ export default function FullPost(post: Readonly<Post>) {
     <div className="px-4 py-3 max-w-7xl">
       <div className="bg-white p-4 rounded-lg shadow-md mb-4">
         <div className="">
-          <IcLink href={`/account/${post.userID}`}>User {post.userID}</IcLink>
+          <IcLink href={`/account/${post.userID}`}>@{post.username}</IcLink>
           <IcTypography>{post.content}</IcTypography>
           <br />
           <IcTypography variant="caption">

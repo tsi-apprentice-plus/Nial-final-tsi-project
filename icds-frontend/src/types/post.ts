@@ -19,4 +19,9 @@ export type Post = {
   likes: Likes[];
   _id: Types.ObjectId;
 };
+
+export type PostWithUsername = Post & { username: string };
+
 export type Posts = Post[];
+
+export type PostsWithUsername = PostWithUsername[];

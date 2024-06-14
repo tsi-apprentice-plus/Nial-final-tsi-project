@@ -1,4 +1,4 @@
-import { query, body } from "express-validator";
+import { query, body, param } from "express-validator";
 
 import { authValidation, _idValidation } from "./validations";
 
@@ -9,6 +9,11 @@ export const GetValidation = [
   query("limit").optional().isInt().withMessage("Limit must be an integer"),
   query("page").optional().isInt().withMessage("Page must be an integer"),
 ];
+
+export const GetSingleValidation = [
+  param("_id").isMongoId().withMessage("Invalid _id format"),
+];
+
 export const DeleteValidation = [_idValidation, ...authValidation];
 export const PatchValidation = [
   _idValidation,
