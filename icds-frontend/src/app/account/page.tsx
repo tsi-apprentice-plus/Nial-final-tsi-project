@@ -17,3 +17,4 @@ export default async function AccountPage() {
     </div>
   );
 }
+export const dynamic = "force-dynamic";
