@@ -5,7 +5,6 @@ import { createPost } from "@/utils/route";
 export default function CreatePost() {
   function handleSubmit() {
     const title = document.getElementById("create-title") as HTMLInputElement;
-    console.log(title.value);
     createPost({ content: title.value });
   }
   return (

@@ -17,9 +17,7 @@ export default function Pagination({ pages }: Readonly<PaginationProps>) {
     return params.toString();
   }
   function changePage(pageNumber: number) {
-    console.log("change page", pageNumber);
     const query = createQueryString("page", pageNumber.toString());
-    console.log("query", query);
     router.push(pathname + "?" + query);
   }
 
