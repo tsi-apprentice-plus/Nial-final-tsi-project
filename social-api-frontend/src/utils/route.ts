@@ -35,7 +35,7 @@ type DeleteUser = {
 };
 
 //hardcoded username and password, and data should NOT be optional :)
-const username = "hardcoded";
+const username = "webuser";
 const password = "test";
 const auth = { username, password };
 const HardcodedData: LikePost = { auth };

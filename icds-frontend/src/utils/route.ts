@@ -37,7 +37,7 @@ type DeleteUser = {
 };
 
 //hardcoded username and password, and data should NOT be optional :)
-const username = "hardcoded";
+const username = "webuser";
 const password = "test";
 const auth = { username, password };
 const HardcodedData: LikePost = { auth };
@@ -61,7 +61,7 @@ export async function likePost(postId: Types.ObjectId) {
   return response.json();
 }
 
-export const getPosts = async (post_id = "") => {
+export const getPosts = async (post_id?:string) => {
   let url = `${BASE_URL}/posts`;
   if (post_id) {
     url += `?_id=${post_id}`;
@@ -69,6 +69,15 @@ export const getPosts = async (post_id = "") => {
   const response = await fetch(url);
   return response.json();
 };
+
+export const getPostsUser = async (userid: number) => {
+  let url = `${BASE_URL}/posts`;
+  if (userid) {
+    url += `?userID=${userid}`;
+  }
+  const response = await fetch(url);
+  return response.json();
+}
 
 export const getPostsPaged = async (limit: number, page: number) => {
   const response = await fetch(`${BASE_URL}/posts?limit=${limit}&page=${page}`);
@@ -118,9 +127,9 @@ export const createUser = async (data?: CreateUser) => {
   return response.json();
 };
 
-export const getUser = async (username = "") => {
+export const getUser = async (userId: number) => {
   const response = await fetch(
-    BASE_URL + "/users" + (username ? "?username=" + username : ""),
+    BASE_URL + "/users" + (userId ? "?id=" + userId : ""),
   );
   return response.json();
 };
