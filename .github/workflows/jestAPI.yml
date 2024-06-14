@@ -1,4 +1,4 @@
-name: Jest API Tests
+name: Jest API Tests + SonarQube Scan
 on:
   push:
     branches: [main]

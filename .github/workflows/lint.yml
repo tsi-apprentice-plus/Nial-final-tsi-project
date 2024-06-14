@@ -1,4 +1,4 @@
-name: Lint ICDS, MUI and API
+name: Lint
 on:
   push:
     branches: [main]
