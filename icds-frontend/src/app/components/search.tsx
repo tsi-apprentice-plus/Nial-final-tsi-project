@@ -45,7 +45,7 @@ export default function Search() {
         label="Search"
         onIcChange={handleSearch}
       />
-      <IcNavigationItem slot="navigation" label="Home" href="#" />
+      <IcNavigationItem slot="navigation" label="Home" href="/" />
       <IcNavigationItem slot="navigation" label="My Account" href="/account" />
     </IcTopNavigation>
   );
