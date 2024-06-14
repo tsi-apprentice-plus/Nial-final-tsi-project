@@ -5,19 +5,19 @@ test("Create Post, Search and Like", async ({ page }) => {
   const testuuid = v4();
   await page.goto("http://localhost:3000/");
   await page.getByLabel("Create Post").click();
-  await page.getByLabel("Create Post").fill(`playwright test ${testuuid}`);
+  const postContent = `playwright test ${testuuid}`;
+  await page.getByLabel("Create Post").fill(postContent);
   await page.getByRole("button", { name: "Submit" }).click();
   await page.getByRole("textbox", { name: "Search" }).click();
   await page
     .getByRole("textbox", { name: "Search" })
-    .fill(`playwright test ${testuuid}`);
+    .fill(postContent);
   await page.waitForTimeout(2000); // wait for search results to load and debounce to finish
   await page.getByRole("button", { name: "Search" }).click();
-  await expect(page.locator("ic-card")).toContainText(
-    `playwright test ${testuuid}`,
-  );
-  await expect(page.getByRole("button", { name: "Likes" })).toBeVisible();
-  await expect(page.locator("ic-card")).toContainText("0 Likes");
-  await page.getByRole("button", { name: "Likes" }).click();
-  await expect(page.locator("ic-card")).toContainText("1 Likes");
+  await expect(page.locator("ic-card")).toContainText(postContent);
+  const likeButton = page.getByTestId("like-button");
+  await expect(likeButton).toBeVisible();
+  await expect(likeButton).toContainText("0");
+  await likeButton.click();
+  await expect(likeButton).toContainText("1");
 });

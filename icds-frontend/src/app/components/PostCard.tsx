@@ -67,7 +67,7 @@ export default function PostCard({
           slot="interaction-controls"
           style={{ display: "flex", gap: "16px" }}
         >
-          <IcButton onClick={likeHandler}>
+          <IcButton onClick={likeHandler} data-testid="like-button">
             <Icon path={liked ? mdiThumbUp : mdiThumbUpOutline} size={1} />
             {likeCount}
           </IcButton>

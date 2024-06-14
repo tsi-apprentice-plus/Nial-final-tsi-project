@@ -5,12 +5,13 @@ test.describe("Full Page View", () => {
   // http://localhost:3000/posts/66617587e22163b194d2f799
   const baseUrl = "http://localhost:3000";
   const postId = "66617587e22163b194d2f799";
+
   test("should render full post view with initial data", async ({ page }) => {
     await page.goto(`${baseUrl}/posts/${postId}`);
 
     await expect(page.getByText("User 42")).toBeVisible(); //posting user
     await expect(page.getByText("In quis justo.")).toBeVisible(); //post content
-    await expect(page.getByRole("button", { name: "3" })).toBeVisible(); //like button
+    await expect(page.getByTestId("like-button-fullscreen")).toBeVisible(); //like button
     await expect(page.getByText("User 45")).toBeVisible(); //commenting user
     await expect(
       page.getByText(
@@ -22,12 +23,11 @@ test.describe("Full Page View", () => {
   test("should like and unlike the post", async ({ page }) => {
     await page.goto(`${baseUrl}/posts/${postId}`);
 
-    const likeButton = page.getByRole("button", { name: "3" });
+    const likeButton = page.getByTestId("like-button-fullscreen");
     await likeButton.click();
-    await expect(page.locator("text=4")).toBeVisible();
-
+    await expect(likeButton).toContainText("4");
     await likeButton.click();
-    await expect(page.locator("text=3")).toBeVisible();
+    await expect(likeButton).toContainText("3");
   });
 
   test("should add a new comment", async ({ page }) => {

@@ -1,16 +1,16 @@
 "use client";
 import { Comments, Post } from "@/types/post";
-import { Types } from "mongoose";
 import { IcButton, IcTypography } from "@ukic/react";
-import { likePost, unlikePost, createComment, getPosts } from "@/utils/route";
+import { likePost, unlikePost } from "@/utils/route";
 import { useState } from "react";
 import Icon from "@mdi/react";
 import { mdiCommentOutline, mdiThumbUpOutline, mdiThumbUp } from "@mdi/js";
-import Comment from "./comments";
+import Comment from "./Comment";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/en";
+import CommentForm from "./CommentForm";
 dayjs.extend(relativeTime);
 dayjs.locale("en");
 
@@ -20,7 +20,6 @@ export default function FullPost(post: Readonly<Post>) {
   const [liked, setLiked] = useState<boolean>(userliked);
   const [likeCount, setLikeCount] = useState(post.likes.length);
   const [comments, setComments] = useState<Comments[]>(post.comments);
-  const [comment, setComment] = useState<string>("");
 
   async function likeHandler() {
     const newliked = !liked;
@@ -33,11 +32,6 @@ export default function FullPost(post: Readonly<Post>) {
     }
     setLikeCount(newliked ? likeCount + 1 : likeCount - 1);
   }
-  async function replyHandler(postID: Types.ObjectId, content: string) {
-    await createComment(postID, content);
-    const newComments = await getPosts(postID.toString());
-    setComments(newComments.comments);
-  }
   return (
     <div className="px-4 py-3 max-w-7xl">
       <div className="bg-white p-4 rounded-lg shadow-md mb-4">
@@ -49,7 +43,7 @@ export default function FullPost(post: Readonly<Post>) {
             {dayjs(post.timestamp).fromNow()}
           </IcTypography>
           <div className="flex justify-around py-2 border-t-2">
-            <IcButton onClick={likeHandler}>
+            <IcButton onClick={likeHandler} data-testid="like-button-fullscreen">
               <Icon
                 path={liked ? mdiThumbUp : mdiThumbUpOutline}
                 size={1}
@@ -67,22 +61,7 @@ export default function FullPost(post: Readonly<Post>) {
             </IcButton>
           </div>
           <div className="border-t-2">
-            <form className="flex flex-col -mx-4">
-              <label className="hover-animation grid w-full grid-cols-[auto,1fr] gap-3 px-4 py-3 pt-3 pb-1">
-                <textarea
-                  className="w-full min-w-0 resize-none bg-transparent text-xl outline-none"
-                  placeholder="Write a comment..."
-                  onChange={(e) => setComment(e.target.value)}
-                />
-                <IcButton
-                  className="px-4 py-1.5 font-bold"
-                  type="button"
-                  onClick={() => replyHandler(post._id, comment)}
-                >
-                  Reply
-                </IcButton>
-              </label>
-            </form>
+            <CommentForm postid={post._id} setComments={setComments} />
           </div>
           <div className="border-t-2">
             {comments.map((comment, index) => (
