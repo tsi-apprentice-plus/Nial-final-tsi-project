@@ -36,7 +36,8 @@ export default function PostCard({
   const [liked, setLiked] = useState<boolean>(userliked);
   const [likeCount, setLikeCount] = useState(post.likes.length);
 
-  async function likeHandler() {
+  async function likeHandler(e: React.MouseEvent<HTMLIcButtonElement>) {
+    e.stopPropagation();
     const newliked = !liked;
     setLiked(newliked);
     if (!post._id) return;

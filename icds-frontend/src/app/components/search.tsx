@@ -8,6 +8,7 @@ import {
   IcSearchBar,
   IcNavigationItem,
 } from "@ukic/react";
+
 export default function Search() {
   const searchParams = useSearchParams();
   const pathname = usePathname();

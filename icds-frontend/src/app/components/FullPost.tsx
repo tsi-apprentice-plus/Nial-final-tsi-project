@@ -2,12 +2,11 @@
 import { Comments, Post } from "@/types/post";
 import { Types } from "mongoose";
 import { IcButton, IcTypography } from "@ukic/react";
-import { likePost, unlikePost, createComment } from "@/utils/route";
+import { likePost, unlikePost, createComment, getPosts } from "@/utils/route";
 import { useState } from "react";
 import Icon from "@mdi/react";
 import { mdiCommentOutline, mdiThumbUpOutline, mdiThumbUp } from "@mdi/js";
 import Comment from "./comments";
-import { getPosts } from "@/utils/route";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
