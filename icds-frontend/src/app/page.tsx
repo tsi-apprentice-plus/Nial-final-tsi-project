@@ -4,6 +4,7 @@ import { Posts } from "@/types/post";
 import Search from "./components/search";
 import Pagination from "./components/Pagination";
 import CreatePost from "./components/CreatePost";
+import { Suspense } from "react";
 
 interface Props {
   searchParams: { query?: string; page?: number };
@@ -16,12 +17,14 @@ export default async function Homepage({ searchParams }: Readonly<Props>) {
   const posts: Posts = await getPostSearchPaged(25, page ?? 1, query ?? "");
   return (
     <div>
-      <Search />
-      <CreatePost />
-      <br />
-      <PostsList posts={posts} />
-      <br />
-      <Pagination pages={pages} />
+      <Suspense>
+        <Search />
+        <CreatePost />
+        <br />
+        <PostsList posts={posts} />
+        <br />
+        <Pagination pages={pages} />
+      </Suspense>
     </div>
   );
 }

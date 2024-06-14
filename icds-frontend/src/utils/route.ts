@@ -151,11 +151,14 @@ export const unlikePost = async (postId: Types.ObjectId, data?: DeletePost) => {
   return response.json();
 };
 
-export const createComment = async (postId: Types.ObjectId, content: string) => {
+export const createComment = async (
+  postId: Types.ObjectId,
+  content: string,
+) => {
   const response = await fetch(`${BASE_URL}/posts/${postId}/comments`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ content, auth }),
   });
   return response.json();
-}
+};

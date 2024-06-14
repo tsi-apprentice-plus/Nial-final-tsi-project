@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { IcLoadingIndicator } from "@ukic/react";
 export default function Loading() {

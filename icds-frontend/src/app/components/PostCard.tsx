@@ -11,7 +11,7 @@ import {
   mdiAccount,
 } from "@mdi/js";
 import { useState } from "react";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -26,10 +26,13 @@ interface PostCardProps {
   showDelete?: boolean;
 }
 
-export default function PostCard({ post, showDelete }: Readonly<PostCardProps>) {
-  const router = useRouter()
+export default function PostCard({
+  post,
+  showDelete,
+}: Readonly<PostCardProps>) {
+  const router = useRouter();
   const userliked = post.likes.some((like) => Number(like.userID) === 99);
-  console.log ("card delete", showDelete)
+  console.log("card delete", showDelete);
   const [liked, setLiked] = useState<boolean>(userliked);
   const [likeCount, setLikeCount] = useState(post.likes.length);
 
@@ -49,35 +52,38 @@ export default function PostCard({ post, showDelete }: Readonly<PostCardProps>) 
     await deletePost(postId);
   }
   return (
-      <div data-testid="post-item">
-        <IcCard
-          heading={String(post.userID)}
-          subheading={dayjs(post.timestamp).fromNow()}
-          message={post.content}
-          className="bg-white shadow-md rounded-lg"
-          clickable
-          onClick={() => router.push(`/posts/${post._id}`)}
+    <div data-testid="post-item">
+      <IcCard
+        heading={String(post.userID)}
+        subheading={dayjs(post.timestamp).fromNow()}
+        message={post.content}
+        className="bg-white shadow-md rounded-lg"
+        clickable
+        onClick={() => router.push(`/posts/${post._id}`)}
+      >
+        <Icon path={mdiAccount} size={1} />
+        <div
+          slot="interaction-controls"
+          style={{ display: "flex", gap: "16px" }}
         >
-          <Icon path={mdiAccount} size={1} />
-          <div
-            slot="interaction-controls"
-            style={{ display: "flex", gap: "16px" }}
-          >
-            <IcButton onClick={likeHandler}>
-              <Icon path={liked ? mdiThumbUp : mdiThumbUpOutline} size={1} />
-              {likeCount}
+          <IcButton onClick={likeHandler}>
+            <Icon path={liked ? mdiThumbUp : mdiThumbUpOutline} size={1} />
+            {likeCount}
+          </IcButton>
+          <IcButton>
+            <Icon path={mdiCommentOutline} size={1} />
+            {post.comments.length}
+          </IcButton>
+          {showDelete && (
+            <IcButton
+              variant="destructive"
+              onClick={() => deleteHandler(post._id)}
+            >
+              Delete
             </IcButton>
-            <IcButton>
-              <Icon path={mdiCommentOutline} size={1} />
-              {post.comments.length}
-            </IcButton>
-            {showDelete && (
-              <IcButton variant="destructive" onClick={() => deleteHandler(post._id)}>
-                Delete
-              </IcButton>
-            )}
-          </div>
-        </IcCard>
-      </div>
+          )}
+        </div>
+      </IcCard>
+    </div>
   );
 }
