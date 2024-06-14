@@ -5,6 +5,7 @@ import authenticateUser from "../middlewares/userAuth";
 import bcrypt from "bcrypt";
 import {
   GetValidation,
+  GetSingleValidation,
   DeleteValidation,
   PatchValidation,
   PostValidation,
@@ -33,7 +34,6 @@ userRouter.post("/", PostValidation, async (req: Request, res: Response) => {
   }
   const lastUser = await User.findOne({}).sort({ id: -1 });
   const newID = lastUser ? lastUser.id + 1 : 1;
-  console.log("newID: ", newID);
   const user = new User({
     id: newID,
     username: username,
@@ -42,6 +42,27 @@ userRouter.post("/", PostValidation, async (req: Request, res: Response) => {
   });
   const newUser = await user.save();
   res.json(newUser);
+});
+
+userRouter.get("/:id", GetSingleValidation, async (req: Request, res: Response) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  if (!req.params.id) {
+    return res.status(400).json({ message: "id is required" });
+  }
+  try {
+    const id = req.params.id;
+    const user = await User.findOne({ id: { $eq: id } });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+    console.error(error);
+  }
 });
 
 // can take _id, id, email, or username as query parameter

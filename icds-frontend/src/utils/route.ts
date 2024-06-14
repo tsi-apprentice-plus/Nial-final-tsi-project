@@ -134,9 +134,9 @@ export const createUser = async (data?: CreateUser) => {
 
 export const getUser = async (userId: number) => {
   const response = await fetch(
-    BASE_URL + "/users" + (userId ? "?id=" + userId : ""),
+    BASE_URL + "/users/" + userId,
   );
-  return response.json();
+  return await response.json();
 };
 
 export const updateUser = async (userId: number, data?: UpdateUser) => {

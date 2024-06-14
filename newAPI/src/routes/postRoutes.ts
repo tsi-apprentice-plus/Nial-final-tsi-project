@@ -130,7 +130,6 @@ postRouter.delete(
           req.user.id +
           " is not authorized to delete this post owned by " +
           post.userID;
-        console.log(post.userID, req.user.id);
         return res.status(401).json(message);
       }
       await post.deleteOne();
@@ -195,7 +194,6 @@ postRouter.post(
       return res.status(400).json({ message: "Content is required" });
     }
     if (!req.user) {
-      console.log(req.user);
       return res.status(401).json({ message: "Unauthorized" });
     }
     try {

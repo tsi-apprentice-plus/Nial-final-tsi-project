@@ -1,9 +1,9 @@
-import MenuAppBar from "@/app/components/search";
+import MenuAppBar from "@/components/search";
 import { getUsersPosts, getUser } from "@/utils/route";
 import { Posts } from "@/types/post";
-import PostsList from "@/app/components/PostsList";
+import PostsList from "@/components/PostsList";
 import { Suspense } from "react";
-import UserHeader from "@/app/components/UserHeader";
+import UserHeader from "@/components/UserHeader";
 import { User } from "@/types/user";
 
 export default async function AccountPage({
@@ -11,9 +11,7 @@ export default async function AccountPage({
 }: Readonly<{ params: { userid: number } }>) {
   const { userid } = params;
   const usersPosts: Posts = await getUsersPosts(userid);
-  const users = await getUser(userid);
-  const user: User = users[0];
-  console.log(usersPosts);
+  const user = await getUser(userid);
   return (
     <div>
       <Suspense fallback={<div>Loading...</div>}>

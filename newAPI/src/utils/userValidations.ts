@@ -21,6 +21,10 @@ export const GetValidation = [
   query("email").optional().isEmail().withMessage("Invalid email format"),
 ];
 
+export const GetSingleValidation = [
+  param("id").isInt().withMessage("Invalid id format"),
+];
+
 export const PatchValidation = [
   param("id").isInt().withMessage("Invalid id format"),
   body("username").optional(),
