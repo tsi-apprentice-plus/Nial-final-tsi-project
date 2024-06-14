@@ -32,7 +32,6 @@ export default function PostCard({
 }: Readonly<PostCardProps>) {
   const router = useRouter();
   const userliked = post.likes.some((like) => Number(like.userID) === 99);
-  console.log("card delete", showDelete);
   const [liked, setLiked] = useState<boolean>(userliked);
   const [likeCount, setLikeCount] = useState(post.likes.length);
 
@@ -48,7 +47,8 @@ export default function PostCard({
     }
     setLikeCount(newliked ? likeCount + 1 : likeCount - 1);
   }
-  async function deleteHandler(postId: Types.ObjectId) {
+  async function deleteHandler(postId: Types.ObjectId, e: React.MouseEvent<HTMLIcButtonElement>) {
+    e.stopPropagation();
     if (!postId) return;
     await deletePost(postId);
   }
@@ -78,7 +78,7 @@ export default function PostCard({
           {showDelete && (
             <IcButton
               variant="destructive"
-              onClick={() => deleteHandler(post._id)}
+              onClick={(e) => deleteHandler(post._id, e)}
             >
               Delete
             </IcButton>
