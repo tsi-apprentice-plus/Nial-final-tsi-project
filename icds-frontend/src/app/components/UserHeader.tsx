@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { IcTypography } from "@ukic/react";
 import { User } from "@/types/user";
 
@@ -7,7 +7,6 @@ interface Props {
 }
 
 export default function UserHeader({ user }: Readonly<Props>) {
-
   return (
     <div className="flex justify-center">
       <div className="bg-white p-4 rounded-lg shadow-md w-fit">

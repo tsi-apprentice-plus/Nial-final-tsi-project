@@ -9,9 +9,7 @@ test("Create Post, Search and Like", async ({ page }) => {
   await page.getByLabel("Create Post").fill(postContent);
   await page.getByRole("button", { name: "Submit" }).click();
   await page.getByRole("textbox", { name: "Search" }).click();
-  await page
-    .getByRole("textbox", { name: "Search" })
-    .fill(postContent);
+  await page.getByRole("textbox", { name: "Search" }).fill(postContent);
   await page.waitForTimeout(2000); // wait for search results to load and debounce to finish
   await page.getByRole("button", { name: "Search" }).click();
   await expect(page.locator("ic-card")).toContainText(postContent);

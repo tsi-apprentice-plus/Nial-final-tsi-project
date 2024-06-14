@@ -47,7 +47,10 @@ export default function PostCard({
     }
     setLikeCount(newliked ? likeCount + 1 : likeCount - 1);
   }
-  async function deleteHandler(postId: Types.ObjectId, e: React.MouseEvent<HTMLIcButtonElement>) {
+  async function deleteHandler(
+    postId: Types.ObjectId,
+    e: React.MouseEvent<HTMLIcButtonElement>,
+  ) {
     e.stopPropagation();
     if (!postId) return;
     await deletePost(postId);

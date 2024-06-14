@@ -10,7 +10,10 @@ interface PostCommentProps {
   setComments: React.Dispatch<React.SetStateAction<Comments[]>>;
 }
 
-export default function CommentForm({postid, setComments} : Readonly<PostCommentProps>) {
+export default function CommentForm({
+  postid,
+  setComments,
+}: Readonly<PostCommentProps>) {
   const [comment, setComment] = useState<string>("");
 
   async function replyHandler(postID: Types.ObjectId, content: string) {
@@ -20,20 +23,20 @@ export default function CommentForm({postid, setComments} : Readonly<PostComment
   }
   return (
     <form className="flex flex-col -mx-4">
-    <label className="hover-animation grid w-full grid-cols-[auto,1fr] gap-3 px-4 py-3 pt-3 pb-1">
-      <textarea
-        className="w-full min-w-0 resize-none bg-transparent text-xl outline-none"
-        placeholder="Write a comment..."
-        onChange={(e) => setComment(e.target.value)}
-      />
-      <IcButton
-        className="px-4 py-1.5 font-bold"
-        type="button"
-        onClick={() => replyHandler(postid, comment)}
-      >
-        Reply
-      </IcButton>
-    </label>
-  </form>
+      <label className="hover-animation grid w-full grid-cols-[auto,1fr] gap-3 px-4 py-3 pt-3 pb-1">
+        <textarea
+          className="w-full min-w-0 resize-none bg-transparent text-xl outline-none"
+          placeholder="Write a comment..."
+          onChange={(e) => setComment(e.target.value)}
+        />
+        <IcButton
+          className="px-4 py-1.5 font-bold"
+          type="button"
+          onClick={() => replyHandler(postid, comment)}
+        >
+          Reply
+        </IcButton>
+      </label>
+    </form>
   );
 }

@@ -6,7 +6,9 @@ import { Suspense } from "react";
 import UserHeader from "@/app/components/UserHeader";
 import { User } from "@/types/user";
 
-export default async function AccountPage({ params }: Readonly<{ params: { userid: number } }>) {
+export default async function AccountPage({
+  params,
+}: Readonly<{ params: { userid: number } }>) {
   const { userid } = params;
   const usersPosts: Posts = await getPostsUser(userid);
   const users = await getUser(userid);

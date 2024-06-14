@@ -37,14 +37,17 @@ export default function FullPost(post: Readonly<Post>) {
     <div className="px-4 py-3 max-w-7xl">
       <div className="bg-white p-4 rounded-lg shadow-md mb-4">
         <div className="">
-          <IcLink href={`/account/${post.userID}`} >User {post.userID}</IcLink>
+          <IcLink href={`/account/${post.userID}`}>User {post.userID}</IcLink>
           <IcTypography>{post.content}</IcTypography>
           <br />
           <IcTypography variant="caption">
             {dayjs(post.timestamp).fromNow()}
           </IcTypography>
           <div className="flex justify-around py-2 border-t-2">
-            <IcButton onClick={likeHandler} data-testid="like-button-fullscreen">
+            <IcButton
+              onClick={likeHandler}
+              data-testid="like-button-fullscreen"
+            >
               <Icon
                 path={liked ? mdiThumbUp : mdiThumbUpOutline}
                 size={1}
