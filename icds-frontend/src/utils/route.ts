@@ -70,7 +70,7 @@ export const getPosts = async (post_id?: string) => {
   return response.json();
 };
 
-export const getPostsUser = async (userid: number) => {
+export const getUsersPosts = async (userid: number) => {
   let url = `${BASE_URL}/posts`;
   if (userid) {
     url += `?userID=${userid}`;
@@ -99,6 +99,11 @@ export const getPostSearchPaged = async (
   );
   return response.json();
 };
+
+export const getSinglePost = async (postId: string) => {
+  const response = await fetch(`${BASE_URL}/posts/${postId}`);
+  return response.json();
+}
 
 export const updatePost = async (postId: Types.ObjectId, data?: UpdatePost) => {
   const response = await fetch(`${BASE_URL}/posts/${postId}`, {

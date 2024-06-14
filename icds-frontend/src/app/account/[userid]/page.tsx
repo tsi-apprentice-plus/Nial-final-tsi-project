@@ -1,5 +1,5 @@
 import MenuAppBar from "@/app/components/search";
-import { getPostsUser, getUser } from "@/utils/route";
+import { getUsersPosts, getUser } from "@/utils/route";
 import { Posts } from "@/types/post";
 import PostsList from "@/app/components/PostsList";
 import { Suspense } from "react";
@@ -10,7 +10,7 @@ export default async function AccountPage({
   params,
 }: Readonly<{ params: { userid: number } }>) {
   const { userid } = params;
-  const usersPosts: Posts = await getPostsUser(userid);
+  const usersPosts: Posts = await getUsersPosts(userid);
   const users = await getUser(userid);
   const user: User = users[0];
   console.log(usersPosts);
