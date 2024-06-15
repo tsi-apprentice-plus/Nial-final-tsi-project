@@ -1,5 +1,5 @@
 "use client";
-import { createComment, getPosts } from "@/utils/route";
+import { createComment, getSinglePost } from "@/utils/route";
 import { useState } from "react";
 import { IcButton } from "@ukic/react";
 import { Types } from "mongoose";
@@ -12,13 +12,13 @@ interface PostCommentProps {
 
 export default function CommentForm({
   postid,
-  setComments,
+  setComments
 }: Readonly<PostCommentProps>) {
   const [comment, setComment] = useState<string>("");
 
   async function replyHandler(postID: Types.ObjectId, content: string) {
     await createComment(postID, content);
-    const newComments = await getPosts(postID.toString());
+    const newComments = await getSinglePost(postID.toString());
     setComments(newComments.comments);
   }
   return (
