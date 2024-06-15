@@ -1,7 +1,7 @@
-import { Posts } from "@/types/post";
-import CreatePost from "./CreatePost";
-import PostsList from "./PostsList";
-import Pagination from "./Pagination";
+import { PostsWithUsername } from "@/types/post";
+import CreatePost from "@/components/CreatePost";
+import PostsList from "@/components/PostsList";
+import Pagination from "@/components/Pagination";
 import { getPostSearchPaged, getPosts } from "@/utils/route";
 
 interface Props {
@@ -13,7 +13,7 @@ export default async function HomepageContent({
 }: Readonly<Props>) {
   const { query, page } = searchParams;
   const pages: number = Math.ceil((await getPosts()).length / 25);
-  const posts: Posts = await getPostSearchPaged(25, page ?? 1, query ?? "");
+  const posts: PostsWithUsername = await getPostSearchPaged(25, page ?? 1, query ?? "");
   return (
     <div>
       <CreatePost />

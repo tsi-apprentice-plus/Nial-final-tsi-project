@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/en";
 import { PostsWithUsername } from "@/types/post";
-import PostCard from "./PostCard";
+import PostCard from "@/components/PostCard";
 
 dayjs.extend(relativeTime);
 dayjs.locale("en");

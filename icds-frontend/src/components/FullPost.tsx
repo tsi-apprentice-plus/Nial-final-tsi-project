@@ -5,12 +5,13 @@ import { likePost, unlikePost } from "@/utils/route";
 import { useState } from "react";
 import Icon from "@mdi/react";
 import { mdiCommentOutline, mdiThumbUpOutline, mdiThumbUp } from "@mdi/js";
-import Comment from "./Comment";
+import Comment from "@/components/Comment";
+import CommentForm from "@/components/CommentForm";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/en";
-import CommentForm from "./CommentForm";
+
 dayjs.extend(relativeTime);
 dayjs.locale("en");
 

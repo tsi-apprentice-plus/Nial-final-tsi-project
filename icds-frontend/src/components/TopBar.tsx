@@ -13,7 +13,7 @@ interface Props {
   showSearch?: boolean;
 }
 
-export default function TopBar({ showSearch }: Props) {
+export default function TopBar({ showSearch }: Readonly<Props>) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
