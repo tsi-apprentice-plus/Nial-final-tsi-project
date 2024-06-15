@@ -7,7 +7,6 @@ interface Props {
 }
 
 export default async function Homepage({ searchParams }: Readonly<Props>) {
-
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <TopBar showSearch />

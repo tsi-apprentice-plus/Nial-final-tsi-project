@@ -51,7 +51,7 @@ postRouter.get(
       res.status(500).json({ message: "Internal server error" });
       console.error(error);
     }
-  }
+  },
 );
 
 // returns all posts, can filter by userID or _id
@@ -98,7 +98,7 @@ postRouter.get("/", GetValidation, async (req: Request, res: Response) => {
     return res.status(404).json({ message: "Posts not found" });
   }
   const postsWithUsername = await Promise.all(
-    posts.map((post) => addUsernameToPost(post.toObject()))
+    posts.map((post) => addUsernameToPost(post.toObject())),
   );
   res.json(postsWithUsername);
 });
@@ -138,7 +138,7 @@ postRouter.delete(
       res.status(500).json({ message: "Internal server error" });
       console.error(error);
     }
-  }
+  },
 );
 
 //  auth required, _id required in url, content required in body,returns updated post
@@ -177,7 +177,7 @@ postRouter.patch(
       res.status(500).json({ message: "Internal server error" });
       console.error(error);
     }
-  }
+  },
 );
 
 // content required in body, returns created post
@@ -207,7 +207,7 @@ postRouter.post(
       res.status(500).json({ message: "Internal server error" });
       console.error(error);
     }
-  }
+  },
 );
 
 // auth required, _id required in params, gets userID thru auth, returns liked post
@@ -239,7 +239,7 @@ postRouter.post(
       res.status(500).json({ message: "Internal server error" });
       console.error(error);
     }
-  }
+  },
 );
 
 type Like = {
@@ -273,7 +273,7 @@ postRouter.delete(
       res.status(500).json({ message: "Internal server error" });
       console.error(error);
     }
-  }
+  },
 );
 
 postRouter.post(
@@ -305,7 +305,7 @@ postRouter.post(
       res.status(500).json({ message: "Internal server error" });
       console.error(error);
     }
-  }
+  },
 );
 
 export default postRouter;

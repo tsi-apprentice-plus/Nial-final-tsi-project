@@ -103,7 +103,7 @@ export const getPostSearchPaged = async (
 export const getSinglePost = async (postId: string) => {
   const response = await fetch(`${BASE_URL}/posts/${postId}`);
   return response.json();
-}
+};
 
 export const updatePost = async (postId: Types.ObjectId, data?: UpdatePost) => {
   const response = await fetch(`${BASE_URL}/posts/${postId}`, {
@@ -133,9 +133,7 @@ export const createUser = async (data?: CreateUser) => {
 };
 
 export const getUser = async (userId: number) => {
-  const response = await fetch(
-    BASE_URL + "/users/" + userId,
-  );
+  const response = await fetch(BASE_URL + "/users/" + userId);
   return await response.json();
 };
 

@@ -12,7 +12,7 @@ interface PostCommentProps {
 
 export default function CommentForm({
   postid,
-  setComments
+  setComments,
 }: Readonly<PostCommentProps>) {
   const [comment, setComment] = useState<string>("");
 

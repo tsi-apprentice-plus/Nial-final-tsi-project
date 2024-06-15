@@ -44,26 +44,30 @@ userRouter.post("/", PostValidation, async (req: Request, res: Response) => {
   res.json(newUser);
 });
 
-userRouter.get("/:id", GetSingleValidation, async (req: Request, res: Response) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-  if (!req.params.id) {
-    return res.status(400).json({ message: "id is required" });
-  }
-  try {
-    const id = req.params.id;
-    const user = await User.findOne({ id: { $eq: id } });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+userRouter.get(
+  "/:id",
+  GetSingleValidation,
+  async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
-    return res.json(user);
-  } catch (error) {
-    res.status(500).json({ message: "Internal server error" });
-    console.error(error);
-  }
-});
+    if (!req.params.id) {
+      return res.status(400).json({ message: "id is required" });
+    }
+    try {
+      const id = req.params.id;
+      const user = await User.findOne({ id: { $eq: id } });
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      return res.json(user);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+      console.error(error);
+    }
+  },
+);
 
 // can take _id, id, email, or username as query parameter
 userRouter.get("/", GetValidation, async (req: Request, res: Response) => {
