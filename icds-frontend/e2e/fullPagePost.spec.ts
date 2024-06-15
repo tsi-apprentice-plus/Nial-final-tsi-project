@@ -9,7 +9,7 @@ test.describe("Full Page View", () => {
   test("should render full post view with initial data", async ({ page }) => {
     await page.goto(`${baseUrl}/posts/${postId}`);
 
-    await expect(page.getByText("User 42")).toBeVisible(); //posting user
+    await expect(page.getByText("@ahundey15")).toBeVisible(); //posting user
     await expect(page.getByText("In quis justo.")).toBeVisible(); //post content
     await expect(page.getByTestId("like-button-fullscreen")).toBeVisible(); //like button
     await expect(page.getByText("User 45")).toBeVisible(); //commenting user
