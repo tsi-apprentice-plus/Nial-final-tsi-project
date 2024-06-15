@@ -10,6 +10,10 @@ export default async function AccountPage({
   params,
 }: Readonly<{ params: { userid: number } }>) {
   const { userid } = params;
+  let showDeletePost = false;
+  if (userid === 99) {
+    showDeletePost = true;
+  }
   const usersPosts: Posts = await getUsersPosts(userid);
   const user = await getUser(userid);
   return (
@@ -19,7 +23,7 @@ export default async function AccountPage({
         <br />
         <UserHeader user={user} />
         <br />
-        <PostsList posts={usersPosts} showDeletePost={true} />
+        <PostsList posts={usersPosts} showDeletePost={showDeletePost} />
       </Suspense>
     </div>
   );
