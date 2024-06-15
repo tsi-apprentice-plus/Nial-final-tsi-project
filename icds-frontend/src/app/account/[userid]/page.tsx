@@ -5,8 +5,9 @@ import PostsList from "@/components/PostsList";
 import { Suspense } from "react";
 import UserHeader from "@/components/UserHeader";
 
-export default async function AccountPage({ params }: Readonly<{ params: { userid: number } }>) {
-
+export default async function AccountPage({
+  params,
+}: Readonly<{ params: { userid: number } }>) {
   const userid = Number(params.userid);
 
   let showDeletePost = false;
