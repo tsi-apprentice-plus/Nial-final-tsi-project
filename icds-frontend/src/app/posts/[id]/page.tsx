@@ -1,5 +1,5 @@
 import FullPost from "@/components/FullPost";
-import MenuAppBar from "@/components/search";
+import TopBar from "@/components/TopBar";
 import { getSinglePost } from "@/utils/route";
 import { Types } from "mongoose";
 import { PostWithUsername } from "@/types/post";
@@ -10,7 +10,7 @@ export default async function PostPage({
   const post: PostWithUsername = await getSinglePost(params.id.toString());
   return (
     <div>
-      <MenuAppBar />
+      <TopBar />
       <FullPost key={post._id?.toString()} {...post} />
     </div>
   );

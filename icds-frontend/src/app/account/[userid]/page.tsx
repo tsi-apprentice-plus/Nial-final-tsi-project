@@ -1,4 +1,4 @@
-import MenuAppBar from "@/components/search";
+import TopBar from "@/components/TopBar";
 import { getUsersPosts, getUser } from "@/utils/route";
 import { Posts } from "@/types/post";
 import PostsList from "@/components/PostsList";
@@ -19,7 +19,7 @@ export default async function AccountPage({
   return (
     <div>
       <Suspense fallback={<div>Loading...</div>}>
-        <MenuAppBar />
+        <TopBar />
         <br />
         <UserHeader user={user} />
         <br />

@@ -1,4 +1,4 @@
-import Search from "@/components/search";
+import TopBar from "@/components/TopBar";
 import HomepageContent from "@/components/homepageContent";
 import { Suspense } from "react";
 
@@ -10,7 +10,7 @@ export default async function Homepage({ searchParams }: Readonly<Props>) {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <Search />
+      <TopBar showSearch />
       <HomepageContent searchParams={searchParams} />
     </Suspense>
   );
