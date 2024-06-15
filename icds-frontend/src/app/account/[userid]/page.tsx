@@ -4,12 +4,11 @@ import { Posts } from "@/types/post";
 import PostsList from "@/components/PostsList";
 import { Suspense } from "react";
 import UserHeader from "@/components/UserHeader";
-import { User } from "@/types/user";
 
-export default async function AccountPage({
-  params,
-}: Readonly<{ params: { userid: number } }>) {
-  const { userid } = params;
+export default async function AccountPage({ params }: Readonly<{ params: { userid: number } }>) {
+
+  const userid = Number(params.userid);
+
   let showDeletePost = false;
   if (userid === 99) {
     showDeletePost = true;
