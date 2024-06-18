@@ -33,7 +33,6 @@ export default function TopBar({ showSearch }: Readonly<Props>) {
 
   return (
     <div>
-      <IcClassificationBanner inline />
       <IcTopNavigation appTitle="TSI">
         <SlottedSVG
           slot="app-icon"
