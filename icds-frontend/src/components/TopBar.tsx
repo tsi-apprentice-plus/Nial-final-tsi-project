@@ -7,7 +7,6 @@ import {
   SlottedSVG,
   IcSearchBar,
   IcNavigationItem,
-  IcClassificationBanner,
 } from "@ukic/react";
 
 interface Props {
