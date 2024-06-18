@@ -13,7 +13,11 @@ export default async function HomepageContent({
 }: Readonly<Props>) {
   const { query, page } = searchParams;
   const pages: number = Math.ceil((await getPosts()).length / 25);
-  const posts: PostsWithUsername = await getPostSearchPaged(25, page ?? 1, query ?? "");
+  const posts: PostsWithUsername = await getPostSearchPaged(
+    25,
+    page ?? 1,
+    query ?? "",
+  );
   return (
     <div>
       <CreatePost />
