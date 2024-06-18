@@ -6,6 +6,8 @@ from datetime import datetime, timedelta
 # Initialize Faker
 fake = Faker()
 
+usernames = [fake.user_name() for _ in range(50)]
+
 # Function to generate a random timestamp within the last year
 def random_timestamp():
     end = datetime.utcnow()
@@ -19,14 +21,14 @@ def mongo_date(dt):
 # Function to generate a like
 def generate_like():
     return {
-        "username": fake.user_name(),
+        "username": usernames[random.randint(0, 49)],
         "timestamp": mongo_date(random_timestamp())
     }
 
 # Function to generate a comment
 def generate_comment():
     return {
-        "username": fake.user_name(),
+        "username": usernames[random.randint(0, 49)],
         "content": fake.sentence(),
         "timestamp": mongo_date(random_timestamp())
     }
@@ -34,7 +36,7 @@ def generate_comment():
 # Function to generate a post
 def generate_post():
     return {
-        "username": fake.user_name(),
+        "username": usernames[random.randint(0, 49)],
         "content": fake.sentence(),
         "timestamp": mongo_date(random_timestamp()),
         "likes": [generate_like() for _ in range(random.randint(0, 5))],
