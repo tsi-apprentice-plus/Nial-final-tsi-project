@@ -1,27 +1,35 @@
 import TopBar from "@/components/TopBar";
-import { getUsersPosts, getUser } from "@/utils/route";
-import { PostsWithUsername } from "@/types/post";
+import { getUsersPosts } from "@/utils/route";
+import { IPosts } from "@/types/post";
 import PostsList from "@/components/PostsList";
 import { Suspense } from "react";
 import UserHeader from "@/components/UserHeader";
+import { getSession } from "@auth0/nextjs-auth0";
 
 export default async function AccountPage({
   params,
-}: Readonly<{ params: { userid: number } }>) {
-  const userid = Number(params.userid);
+}: Readonly<{ params: { username: string } }>) {
+
+
+  const username = params.username;
+  const { user } = (await getSession()) as any;
+  console.log("user", user);
+  if (!user) {
+    return null;
+  }
 
   let showDeletePost = false;
-  if (userid === 99) {
+  if (username === user.nickname) {
     showDeletePost = true;
   }
-  const usersPosts: PostsWithUsername = await getUsersPosts(userid);
-  const user = await getUser(userid);
+  const usersPosts: IPosts = await getUsersPosts(username);
+  console.log(usersPosts);
   return (
     <div>
       <Suspense fallback={<div>Loading...</div>}>
         <TopBar />
         <br />
-        <UserHeader user={user} />
+        <UserHeader userx={user} />
         <br />
         <PostsList posts={usersPosts} showDeletePost={showDeletePost} />
       </Suspense>

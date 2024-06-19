@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 const commentSchema = new Schema({
   username: { type: String, required: true },
@@ -19,6 +19,5 @@ const postSchema = new Schema({
   likes: { type: [likesSchema], default: [] },
 });
 
-const Post = model("Post", postSchema);
-
+const Post = models.Post || model("Post", postSchema);
 export default Post;

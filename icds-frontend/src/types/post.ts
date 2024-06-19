@@ -1,18 +1,18 @@
 import { Types } from "mongoose";
 export type Comments = {
-  userID: string;
+  username: string;
   timestamp: Date;
   content: string;
   _id: Types.ObjectId;
 };
 
 type Likes = {
-  userID: string;
+  username: string;
   timestamp: Date;
 };
 
-export type Post = {
-  userID: number;
+export type IPost = {
+  username: string;
   timestamp: Date;
   content: string;
   comments: Comments[];
@@ -20,8 +20,4 @@ export type Post = {
   _id: Types.ObjectId;
 };
 
-export type PostWithUsername = Post & { username: string };
-
-export type Posts = Post[];
-
-export type PostsWithUsername = PostWithUsername[];
+export type IPosts = IPost[];

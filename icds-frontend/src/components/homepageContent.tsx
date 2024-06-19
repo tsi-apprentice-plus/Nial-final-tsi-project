@@ -1,4 +1,4 @@
-import { PostsWithUsername } from "@/types/post";
+import { IPosts } from "@/types/post";
 import CreatePost from "@/components/CreatePost";
 import PostsList from "@/components/PostsList";
 import Pagination from "@/components/Pagination";
@@ -13,7 +13,7 @@ export default async function HomepageContent({
 }: Readonly<Props>) {
   const { query, page } = searchParams;
   const pages: number = Math.ceil((await getPosts()).length / 25);
-  const posts: PostsWithUsername = await getPostSearchPaged(
+  const posts: IPosts = await getPostSearchPaged(
     25,
     page ?? 1,
     query ?? "",

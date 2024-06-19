@@ -1,49 +1,17 @@
 import { Types } from "mongoose";
 import { env } from "process";
 
-const BASE_URL = env.API_URL ?? "http://localhost:3101";
+const BASE_URL = env.API_URL ?? "http://localhost:3000/api";
 
-type auth = {
-  username: string;
-  password: string;
-};
 type CreatePost = {
   content: string;
-  auth?: auth;
-};
-type LikePost = {
-  auth?: auth;
 };
 type UpdatePost = {
   content?: string;
-  auth?: auth;
 };
-type DeletePost = {
-  auth?: auth;
-};
-type CreateUser = {
-  username: string;
-  password: string;
-  email: string;
-};
-type UpdateUser = {
-  auth: auth;
-  username?: string;
-  password?: string;
-  email?: string;
-};
-type DeleteUser = {
-  auth?: auth;
-};
-
-//hardcoded username and password, and data should NOT be optional :)
-const username = "webuser";
-const password = "test";
-const auth = { username, password };
-const HardcodedData: LikePost = { auth };
 
 export const createPost = async (data: CreatePost) => {
-  const datas = { ...data, auth };
+  const datas = { ...data };
   const response = await fetch(`${BASE_URL}/posts`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -56,8 +24,8 @@ export async function likePost(postId: Types.ObjectId) {
   const response = await fetch(`${BASE_URL}/posts/${postId}/likes`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(HardcodedData),
   });
+  console.log("response", response);
   return response.json();
 }
 
@@ -66,16 +34,18 @@ export const getPosts = async (post_id?: string) => {
   if (post_id) {
     url += `?_id=${post_id}`;
   }
+  console.log("url", url);
   const response = await fetch(url);
   return response.json();
 };
 
-export const getUsersPosts = async (userid: number) => {
+export const getUsersPosts = async (username: string) => {
   let url = `${BASE_URL}/posts`;
-  if (userid) {
-    url += `?userID=${userid}`;
+  if (username) {
+    url += `?username=${username}`;
   }
   const response = await fetch(url);
+  console.log("response", response);
   return response.json();
 };
 
@@ -105,63 +75,31 @@ export const getSinglePost = async (postId: string) => {
   return response.json();
 };
 
-export const updatePost = async (postId: Types.ObjectId, data?: UpdatePost) => {
+export const updatePost = async (postId: Types.ObjectId) => {
   const response = await fetch(`${BASE_URL}/posts/${postId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(HardcodedData),
   });
   return response.json();
 };
 
-export const deletePost = async (postId: Types.ObjectId, data?: DeletePost) => {
+export const deletePost = async (postId: Types.ObjectId) => {
   const response = await fetch(`${BASE_URL}/posts/${postId}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(HardcodedData),
   });
+  console.log("response", response);
   return response.json();
 };
 
-export const createUser = async (data?: CreateUser) => {
-  const response = await fetch(`${BASE_URL}/users`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(HardcodedData),
-  });
-  return response.json();
-};
-
-export const getUser = async (userId: number) => {
-  const response = await fetch(BASE_URL + "/users/" + userId);
-  return await response.json();
-};
-
-export const updateUser = async (userId: number, data?: UpdateUser) => {
-  const response = await fetch(`${BASE_URL}/users/${userId}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(HardcodedData),
-  });
-  return response.json();
-};
-
-export const deleteUser = async (userId: number, data?: DeleteUser) => {
-  const response = await fetch(`${BASE_URL}/users/${userId}`, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(HardcodedData),
-  });
-  return response.json();
-};
-export const unlikePost = async (postId: Types.ObjectId, data?: DeletePost) => {
+export async function unlikePost(postId: Types.ObjectId) {
   const response = await fetch(`${BASE_URL}/posts/${postId}/likes`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(HardcodedData),
   });
+  console.log("response", response);
   return response.json();
-};
+}
 
 export const createComment = async (
   postId: Types.ObjectId,
@@ -170,7 +108,7 @@ export const createComment = async (
   const response = await fetch(`${BASE_URL}/posts/${postId}/comments`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ content, auth }),
+    body: JSON.stringify({ content }),
   });
   return response.json();
 };

@@ -13,7 +13,7 @@ export default function Comment(comment: Readonly<Comments>) {
     <div className="grid grid-cols-[auto,1fr] gap-x-3 gap-y-1">
       <div className="">
         <IcTypography variant="h4" className="truncate">
-          User {comment.userID}
+          @{comment.username}
         </IcTypography>
         <IcTypography variant="caption">
           {dayjs(comment.timestamp).fromNow()}

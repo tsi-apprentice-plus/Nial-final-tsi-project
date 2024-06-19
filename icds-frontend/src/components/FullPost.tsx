@@ -1,12 +1,13 @@
 "use client";
-import { Comments, PostWithUsername } from "@/types/post";
+import { Comments, IPost } from "@/types/post";
 import { IcButton, IcTypography, IcLink } from "@ukic/react";
 import { likePost, unlikePost } from "@/utils/route";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Icon from "@mdi/react";
 import { mdiCommentOutline, mdiThumbUpOutline, mdiThumbUp } from "@mdi/js";
 import Comment from "@/components/Comment";
 import CommentForm from "@/components/CommentForm";
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -15,12 +16,18 @@ import "dayjs/locale/en";
 dayjs.extend(relativeTime);
 dayjs.locale("en");
 
-export default function FullPost(post: Readonly<PostWithUsername>) {
-  const userliked = post.likes.some((like) => Number(like.userID) === 99);
-
-  const [liked, setLiked] = useState<boolean>(userliked);
+export default function FullPost(post: Readonly<IPost>) {
+  const { user, error, isLoading } = useUser();
+  const [liked, setLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState(post.likes.length);
   const [comments, setComments] = useState<Comments[]>(post.comments);
+
+  useEffect(() => {
+    if (!isLoading && user) {
+      const userliked = post.likes.some((like) => like.username === user.nickname);
+      setLiked(userliked);
+    }
+  }, [isLoading, user, post.likes]);
 
   async function likeHandler() {
     const newliked = !liked;
@@ -38,7 +45,7 @@ export default function FullPost(post: Readonly<PostWithUsername>) {
     <div className="px-4 py-3 max-w-7xl">
       <div className="bg-white p-4 rounded-lg shadow-md mb-4">
         <div className="">
-          <IcLink href={`/account/${post.userID}`}>@{post.username}</IcLink>
+          <IcLink href={`/account/${post.username}`}>@{post.username}</IcLink>
           <IcTypography>{post.content}</IcTypography>
           <br />
           <IcTypography variant="caption">

@@ -1,8 +1,7 @@
 import { Router, Response, Request } from "express";
 import { validationResult } from "express-validator";
 import Post from "../schemas/postsSchema";
-import User from "../schemas/usersSchema";
-import authenticateUser from "../middlewares/userAuth";
+import { jwtCheck } from "../middlewares/jwtCheck";
 const postRouter = Router();
 import {
   GetValidation,
@@ -13,20 +12,6 @@ import {
   LikesValidation,
   CommentValidation,
 } from "../utils/postValidations";
-
-import { IPost } from "../types/post";
-
-interface IPostWithUsername extends IPost {
-  username: string;
-}
-
-async function addUsernameToPost(post: IPost): Promise<IPost> {
-  const user = await User.findOne({ id: { $eq: post.userID } });
-  if (!user) {
-    return { ...post, username: "Unknown" } as IPostWithUsername;
-  }
-  return { ...post, username: user.username } as IPostWithUsername;
-}
 
 postRouter.get(
   "/:_id",
@@ -45,8 +30,7 @@ postRouter.get(
       if (!post) {
         return res.status(404).json({ message: "Post not found" });
       }
-      const postWithUsername = await addUsernameToPost(post.toObject());
-      return res.json(postWithUsername);
+      return res.json(post);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
       console.error(error);
@@ -55,58 +39,61 @@ postRouter.get(
 );
 
 // returns all posts, can filter by userID or _id
-postRouter.get("/", GetValidation, async (req: Request, res: Response) => {
-  let posts;
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-  if (
-    req.query.limit !== undefined &&
-    req.query.page !== undefined &&
-    req.query.search !== undefined
-  ) {
-    const limit = parseInt(req.query.limit as string);
-    const page = parseInt(req.query.page as string);
-    const search = req.query.search;
-    posts = await Post.find({
-      content: { $regex: search, $options: "i" },
-    })
-      .limit(limit)
-      .skip(limit * (page - 1));
-  } else if (
-    req.query.limit !== undefined &&
-    req.query.page !== undefined &&
-    req.query.search === undefined
-  ) {
-    const limit = parseInt(req.query.limit as string);
-    const page = parseInt(req.query.page as string);
-    posts = await Post.find()
-      .limit(limit)
-      .skip(limit * (page - 1));
-  } else if (req.query.userID !== undefined) {
-    posts = await Post.find({ userID: { $eq: req.query.userID } });
-  } else if (req.query.search !== undefined) {
-    const search = req.query.search;
-    posts = await Post.find({
-      content: { $regex: search, $options: "i" },
-    });
-  } else {
-    posts = await Post.find();
-  }
-  if (!posts) {
-    return res.status(404).json({ message: "Posts not found" });
-  }
-  const postsWithUsername = await Promise.all(
-    posts.map((post) => addUsernameToPost(post.toObject())),
-  );
-  res.json(postsWithUsername);
-});
+postRouter.get(
+  "/",
+  GetValidation,
+  jwtCheck,
+  async (req: Request, res: Response) => {
+    let posts;
+    console.log(req);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    if (
+      req.query.limit !== undefined &&
+      req.query.page !== undefined &&
+      req.query.search !== undefined
+    ) {
+      const limit = parseInt(req.query.limit as string);
+      const page = parseInt(req.query.page as string);
+      const search = req.query.search;
+      posts = await Post.find({
+        content: { $regex: search, $options: "i" },
+      })
+        .limit(limit)
+        .skip(limit * (page - 1));
+    } else if (
+      req.query.limit !== undefined &&
+      req.query.page !== undefined &&
+      req.query.search === undefined
+    ) {
+      const limit = parseInt(req.query.limit as string);
+      const page = parseInt(req.query.page as string);
+      posts = await Post.find()
+        .limit(limit)
+        .skip(limit * (page - 1));
+    } else if (req.query.userID !== undefined) {
+      posts = await Post.find({ userID: { $eq: req.query.userID } });
+    } else if (req.query.search !== undefined) {
+      const search = req.query.search;
+      posts = await Post.find({
+        content: { $regex: search, $options: "i" },
+      });
+    } else {
+      posts = await Post.find();
+    }
+    if (!posts) {
+      return res.status(404).json({ message: "Posts not found" });
+    }
+    res.json(posts);
+  },
+);
 
 postRouter.delete(
   "/:_id",
   DeleteValidation,
-  authenticateUser,
+  jwtCheck,
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -124,12 +111,12 @@ postRouter.delete(
       if (!post) {
         return res.status(404).json({ message: "Post not found" });
       }
-      if (post.userID !== req.user.id) {
+      if (post.username !== req.body.username) {
         const message =
           "User " +
-          req.user.id +
+          req.body.username +
           " is not authorized to delete this post owned by " +
-          post.userID;
+          post.username;
         return res.status(401).json(message);
       }
       await post.deleteOne();
@@ -145,7 +132,7 @@ postRouter.delete(
 postRouter.patch(
   "/:_id",
   PatchValidation,
-  authenticateUser,
+  jwtCheck,
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -167,7 +154,7 @@ postRouter.patch(
       if (!req.user) {
         return res.status(401).json({ message: "Unauthorized" });
       }
-      if (post.userID !== req.user.id) {
+      if (post.username !== req.body.username) {
         return res.status(401).json({ message: "Unauthorized" });
       }
       post.content = content;
@@ -184,7 +171,7 @@ postRouter.patch(
 postRouter.post(
   "/",
   PostValidation,
-  authenticateUser,
+  jwtCheck,
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -214,7 +201,7 @@ postRouter.post(
 postRouter.post(
   "/:_id/likes",
   LikesValidation,
-  authenticateUser,
+  jwtCheck,
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -250,7 +237,7 @@ type Like = {
 postRouter.delete(
   "/:_id/likes",
   LikesValidation,
-  authenticateUser,
+  jwtCheck,
   async (req: Request, res: Response) => {
     try {
       const _id = req.params._id;
@@ -279,7 +266,7 @@ postRouter.delete(
 postRouter.post(
   "/:_id/comments",
   CommentValidation,
-  authenticateUser,
+  jwtCheck,
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
