@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 export default function CreatePost() {
   const router = useRouter()
   const { user } = useUser();
+
   function handleSubmit() {
     const title = document.getElementById("create-title") as HTMLInputElement;
     if (!title.value) return;
