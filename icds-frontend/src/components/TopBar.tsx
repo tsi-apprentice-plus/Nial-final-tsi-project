@@ -56,7 +56,11 @@ export default function TopBar({ showSearch }: Readonly<Props>) {
             onIcChange={handleSearch}
           />
         )}
-        <IcNavigationButton label="Login" slot="buttons" href="/api/auth/login">
+        <IcNavigationButton
+          label={user ? "Logout" : "Login"}
+          slot="buttons"
+          href={user ? "/api/auth/logout" : "/api/auth/login"}
+        >
           <SlottedSVG
             slot="icon"
             xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +76,7 @@ export default function TopBar({ showSearch }: Readonly<Props>) {
         <IcNavigationItem
           slot="navigation"
           label="My Account"
-          href={`/account/${username}`}
+          href={ username ? `/account/${username}` : "/api/auth/login" }
         />
       </IcTopNavigation>
     </div>

@@ -10,14 +10,12 @@ export default async function AccountPage({
   params,
 }: Readonly<{ params: { username: string } }>) {
   const username = params.username;
-  const { user } = (await getSession()) as any;
+  const session = await getSession();
+  const user = session?.user;
   console.log("user", user);
-  if (!user) {
-    return null;
-  }
 
   let showDeletePost = false;
-  if (username === user.nickname) {
+  if (username === user?.nickname) {
     showDeletePost = true;
   }
   const usersPosts: IPosts = await getUsersPosts(username);
@@ -27,7 +25,7 @@ export default async function AccountPage({
       <Suspense fallback={<div>Loading...</div>}>
         <TopBar />
         <br />
-        <UserHeader userx={user} />
+        <UserHeader user={user} username={username} />
         <br />
         <PostsList posts={usersPosts} showDeletePost={showDeletePost} />
       </Suspense>

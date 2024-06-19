@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import { env } from "process";
 
-const BASE_URL = env.API_URL ?? "http://localhost:3000/api";
+const BASE_URL = env.API_URL ?? "https://n1al.com/api";
 
 type CreatePost = {
   content: string;
@@ -67,6 +67,7 @@ export const getPostSearchPaged = async (
   const response = await fetch(
     BASE_URL + "/posts?limit=" + limit + "&page=" + page + "&search=" + search,
   );
+  console.log("response", response);
   return response.json();
 };
 

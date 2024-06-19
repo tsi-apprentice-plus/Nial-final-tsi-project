@@ -15,6 +15,8 @@ export default async function PostsList({
   posts,
   showDeletePost,
 }: Readonly<PostsListProps>) {
+  if (!posts) return <div>No posts</div>;
+  if (posts.length === 0) return <div>No posts</div>;
   return (
     <div className="container mx-auto px-4">
       <div className="grid grid-cols-1 gap-4">
