@@ -9,8 +9,6 @@ import { getSession } from "@auth0/nextjs-auth0";
 export default async function AccountPage({
   params,
 }: Readonly<{ params: { username: string } }>) {
-
-
   const username = params.username;
   const { user } = (await getSession()) as any;
   console.log("user", user);

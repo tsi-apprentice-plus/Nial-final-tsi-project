@@ -1,6 +1,6 @@
 import { type NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { withApiAuthRequired, getSession } from '@auth0/nextjs-auth0';
+import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
 import Post from "@/schemas/postsSchema";
 
 export const POST = withApiAuthRequired(async function createComment(
@@ -29,7 +29,10 @@ export const POST = withApiAuthRequired(async function createComment(
     return NextResponse.json(likedPost);
   } catch (error) {
     console.error(error);
-    return  NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 },
+    );
   }
 });
 
@@ -48,7 +51,7 @@ export const DELETE = withApiAuthRequired(async function unlike(
     const username = user?.nickname;
     const post = await Post.findOne({ _id: id });
     if (!post) {
-      return  NextResponse.json({ message: "Post not found" }, { status: 404 });
+      return NextResponse.json({ message: "Post not found" }, { status: 404 });
     }
 
     post.likes = post.likes.filter(
@@ -58,6 +61,9 @@ export const DELETE = withApiAuthRequired(async function unlike(
     return NextResponse.json(unlikedPost);
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 },
+    );
   }
 });

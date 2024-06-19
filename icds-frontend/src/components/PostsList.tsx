@@ -1,14 +1,14 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/en";
-import { PostsWithUsername } from "@/types/post";
+import { IPosts } from "@/types/post";
 import PostCard from "@/components/PostCard";
 
 dayjs.extend(relativeTime);
 dayjs.locale("en");
 
 type PostsListProps = {
-  posts: PostsWithUsername;
+  posts: IPosts;
   showDeletePost?: boolean;
 };
 export default async function PostsList({

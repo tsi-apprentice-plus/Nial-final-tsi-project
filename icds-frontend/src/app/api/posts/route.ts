@@ -76,6 +76,9 @@ export const POST = withApiAuthRequired(async function CreatePosts(
     return NextResponse.json(createdPost);
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 },
+    );
   }
 });

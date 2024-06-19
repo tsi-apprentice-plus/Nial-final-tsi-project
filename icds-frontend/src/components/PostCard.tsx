@@ -1,7 +1,7 @@
 "use client";
 
 import { IcCard, IcButton } from "@ukic/react";
-import { PostWithUsername } from "@/types/post";
+import { IPost } from "@/types/post";
 import Icon from "@mdi/react";
 import { Types } from "mongoose";
 import {
@@ -10,8 +10,9 @@ import {
   mdiThumbUp,
   mdiAccount,
 } from "@mdi/js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -22,7 +23,7 @@ dayjs.locale("en");
 import { likePost, unlikePost, deletePost } from "@/utils/route";
 
 interface PostCardProps {
-  post: Readonly<PostWithUsername>;
+  post: Readonly<IPost>;
   showDelete?: boolean;
 }
 
@@ -31,10 +32,19 @@ export default function PostCard({
   showDelete,
 }: Readonly<PostCardProps>) {
   const router = useRouter();
-  const userliked = post.likes.some((like) => Number(like.userID) === 99);
-  const [liked, setLiked] = useState<boolean>(userliked);
+
+  const { user, error, isLoading } = useUser();
+  const [liked, setLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState(post.likes.length);
 
+  useEffect(() => {
+    if (!isLoading && user) {
+      const userliked = post.likes.some(
+        (like) => like.username === user.nickname,
+      );
+      setLiked(userliked);
+    }
+  }, [isLoading, user, post.likes]);
   async function likeHandler(e: React.MouseEvent<HTMLIcButtonElement>) {
     e.stopPropagation();
     const newliked = !liked;

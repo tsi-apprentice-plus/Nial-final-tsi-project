@@ -7,7 +7,7 @@ import Icon from "@mdi/react";
 import { mdiCommentOutline, mdiThumbUpOutline, mdiThumbUp } from "@mdi/js";
 import Comment from "@/components/Comment";
 import CommentForm from "@/components/CommentForm";
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -24,7 +24,9 @@ export default function FullPost(post: Readonly<IPost>) {
 
   useEffect(() => {
     if (!isLoading && user) {
-      const userliked = post.likes.some((like) => like.username === user.nickname);
+      const userliked = post.likes.some(
+        (like) => like.username === user.nickname,
+      );
       setLiked(userliked);
     }
   }, [isLoading, user, post.likes]);

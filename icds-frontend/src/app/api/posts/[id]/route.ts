@@ -1,6 +1,6 @@
 import { type NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { withApiAuthRequired, getSession } from '@auth0/nextjs-auth0';
+import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
 import Post from "@/schemas/postsSchema";
 
 export async function GET(
@@ -28,7 +28,6 @@ export const DELETE = withApiAuthRequired(async function deletePost(
   req: NextRequest,
   { params }: { params?: Record<string, string | string[]> },
 ) {
-
   if (params === undefined) {
     return NextResponse.json({ message: "Missing id" }, { status: 400 });
   }
@@ -48,12 +47,10 @@ export const DELETE = withApiAuthRequired(async function deletePost(
     if (post.username === username) {
       const deletedPost = await Post.findOneAndDelete({ _id: id });
       return NextResponse.json(deletedPost);
-    }
-    else {
+    } else {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error);
     return NextResponse.json(
       { message: "Internal server error" },
