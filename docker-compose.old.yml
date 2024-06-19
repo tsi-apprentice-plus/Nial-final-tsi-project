@@ -7,7 +7,7 @@ services:
     depends_on:
       - api
   icds-frontend:
-    image: ghcr.io/nmcc1212/icds-frontend@v2
+    image: ghcr.io/nmcc1212/icds-frontend:v2
     ports:
       - "3000:3000"
     container_name: icds-frontend
@@ -16,7 +16,7 @@ services:
     environment:
       - API_URL=http://api:3101
   api:
-    image: ghcr.io/nmcc1212/social-api@v1
+    image: ghcr.io/nmcc1212/social-api:v1
     container_name: api
     ports:
       - "3101:3101"

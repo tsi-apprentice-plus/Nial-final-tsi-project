@@ -1,6 +1,6 @@
 services:
   icds-frontend:
-    image: ghcr.io/nmcc1212/icds-frontend@v3
+    image: ghcr.io/nmcc1212/icds-frontend:v3
     ports:
       - "3000:3000"
     container_name: icds-frontend
