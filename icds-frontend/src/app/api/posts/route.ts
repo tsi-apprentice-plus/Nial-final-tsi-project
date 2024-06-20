@@ -22,20 +22,22 @@ export const GET = async function GetPosts(req: NextRequest) {
           content: { $regex: search, $options: "i" },
         })
           .limit(limitNum)
-          .skip(limitNum * (pageNum - 1));
+          .skip(limitNum * (pageNum - 1))
+          .sort({ timestamp: -1 });
       } else {
         posts = await Post.find()
           .limit(limitNum)
-          .skip(limitNum * (pageNum - 1));
+          .skip(limitNum * (pageNum - 1))
+          .sort({ timestamp: -1 });
       }
     } else if (username) {
-      posts = await Post.find({ username });
+      posts = await Post.find({ username }).sort({ timestamp: -1 });
     } else if (search) {
       posts = await Post.find({
         content: { $regex: search, $options: "i" },
-      });
+      }).sort({ timestamp: -1 });
     } else {
-      posts = await Post.find();
+      posts = await Post.find().sort({ timestamp: -1 });
     }
 
     if (!posts || posts.length === 0) {
@@ -46,13 +48,13 @@ export const GET = async function GetPosts(req: NextRequest) {
     console.error(error);
     return NextResponse.json(
       { message: "Internal server error" },
-      { status: 500 },
+      { status: 500 }
     ); // Ensure this line explicitly returns
   }
 };
 
 export const POST = withApiAuthRequired(async function CreatePosts(
-  req: NextRequest,
+  req: NextRequest
 ) {
   try {
     const res = new NextResponse();
@@ -78,7 +80,7 @@ export const POST = withApiAuthRequired(async function CreatePosts(
     console.error(error);
     return NextResponse.json(
       { message: "Internal server error" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 });
