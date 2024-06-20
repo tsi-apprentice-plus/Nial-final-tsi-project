@@ -71,7 +71,7 @@ export default function PostCard({
         heading={`@${String(post.username)}`}
         subheading={dayjs(post.timestamp).fromNow()}
         message={post.content}
-        className="bg-white shadow-md rounded-lg"
+        className="bg-white shadow-md rounded-lg dark:bg-gray-800"
         clickable
         onClick={() => router.push(`/posts/${post._id}`)}
       >

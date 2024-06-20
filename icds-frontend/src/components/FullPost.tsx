@@ -45,7 +45,7 @@ export default function FullPost(post: Readonly<IPost>) {
 
   return (
     <div className="px-4 py-3 max-w-7xl">
-      <div className="bg-white p-4 rounded-lg shadow-md mb-4">
+      <div className="bg-white p-4 rounded-lg shadow-md mb-4 dark:bg-gray-800">
         <div className="">
           <IcLink href={`/account/${post.username}`}>@{post.username}</IcLink>
           <IcTypography>{post.content}</IcTypography>

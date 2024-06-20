@@ -11,7 +11,7 @@ interface Props {
 export default function UserHeader({ username, user }: Readonly<Props>) {
   return (
     <div className="flex justify-center">
-      <div className="bg-white p-4 rounded-lg shadow-md w-fit">
+      <div className="bg-white p-4 rounded-lg shadow-md w-fit dark:bg-gray-800">
         <IcTypography variant="h4">@{user?.nickname ?? username}</IcTypography>
         <IcTypography variant="caption">{user?.email}</IcTypography>
         <IcTypography variant="caption">{user?.name}</IcTypography>
