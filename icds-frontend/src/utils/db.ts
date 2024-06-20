@@ -8,7 +8,7 @@ if (!MONGODB_URI) {
     "Please define the MONGODB_URI environment variable inside .env.local",
   );
 }
-
+console.log ("MONGODB_URI", MONGODB_URI);
 interface Cached {
   conn: Mongoose | null;
   promise: Promise<Mongoose> | null;
