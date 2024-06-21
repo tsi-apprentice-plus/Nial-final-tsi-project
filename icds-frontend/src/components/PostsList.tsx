@@ -19,7 +19,7 @@ export default async function PostsList({
     return <div>No posts</div>;
   }
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto px-4 max-w-[600px]">
       <div className="grid grid-cols-1 gap-4">
         {posts.map((post) => (
           <PostCard
