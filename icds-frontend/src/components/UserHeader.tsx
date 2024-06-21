@@ -1,7 +1,6 @@
 "use client";
 import { IcTypography } from "@ukic/react";
-import { User } from "@/types/user";
-import { use } from "react";
+import Image from "next/image";
 
 interface Props {
   username: string;
@@ -15,6 +14,7 @@ export default function UserHeader({ username, user }: Readonly<Props>) {
         <IcTypography variant="h4">@{user?.nickname ?? username}</IcTypography>
         <IcTypography variant="caption">{user?.email}</IcTypography>
         <IcTypography variant="caption">{user?.name}</IcTypography>
+        <Image src={user?.picture} alt="profile picture" width={100} height={100} />
       </div>
     </div>
   );
