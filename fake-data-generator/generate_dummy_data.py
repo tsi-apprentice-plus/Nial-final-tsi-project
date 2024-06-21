@@ -29,7 +29,7 @@ def generate_like():
 def generate_comment():
     return {
         "username": usernames[random.randint(0, 49)],
-        "content": fake.sentence(),
+        "content": fake.paragraph(2),
         "timestamp": mongo_date(random_timestamp())
     }
 
@@ -37,7 +37,7 @@ def generate_comment():
 def generate_post():
     return {
         "username": usernames[random.randint(0, 49)],
-        "content": fake.sentence(),
+        "content": fake.paragraph(random.randint(2, 5)),
         "timestamp": mongo_date(random_timestamp()),
         "likes": [generate_like() for _ in range(random.randint(0, 5))],
         "comments": [generate_comment() for _ in range(random.randint(0, 4))]
