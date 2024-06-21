@@ -1,14 +1,16 @@
 "use client";
 
 import { IcCard, IcButton } from "@ukic/react";
+import Image from "next/image";
 import { IPost } from "@/types/post";
 import Icon from "@mdi/react";
 import { Types } from "mongoose";
+import "./fixCard.css";
+
 import {
   mdiCommentOutline,
   mdiThumbUpOutline,
   mdiThumbUp,
-  mdiAccount,
 } from "@mdi/js";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -50,12 +52,14 @@ export default function PostCard({
     const newliked = !liked;
     setLiked(newliked);
     if (!post._id) return;
+    // setLiking to true
     if (newliked) {
       await likePost(post._id);
     } else {
       await unlikePost(post._id);
     }
     setLikeCount(newliked ? likeCount + 1 : likeCount - 1);
+    // setLiking to false
   }
   async function deleteHandler(
     postId: Types.ObjectId,
@@ -71,11 +75,15 @@ export default function PostCard({
         heading={`@${String(post.username)}`}
         subheading={dayjs(post.timestamp).fromNow()}
         message={post.content}
-        className="bg-white shadow-md rounded-lg dark:bg-gray-800"
+        className="bg-white shadow-md rounded-lg dark:bg-gray-800 card-fix"
         clickable
         onClick={() => router.push(`/posts/${post._id}`)}
       >
-        <Icon path={mdiAccount} size={1} />
+        {post.image && (
+          <div slot="image-mid">
+            <Image src={post.image} alt="post image" width={250} height={250} />
+          </div>
+        )}
         <div
           slot="interaction-controls"
           style={{ display: "flex", gap: "16px" }}
