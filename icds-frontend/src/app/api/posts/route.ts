@@ -62,7 +62,7 @@ export const POST = withApiAuthRequired(async function CreatePosts(
     const user = session?.user;
     const username = user?.nickname;
     const jsonreq = await req.json();
-    const { content } = jsonreq;
+    const { content, image } = jsonreq;
 
     if (!user) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -73,8 +73,11 @@ export const POST = withApiAuthRequired(async function CreatePosts(
     }
 
     const timestamp = new Date();
-    const post = new Post({ content, username, timestamp });
+    console.log("image", image);
+    const post = new Post({ content, username, timestamp, image });
+    console.log("post", post);
     const createdPost = await post.save();
+    console.log("createdPost", createdPost);
     return NextResponse.json(createdPost);
   } catch (error) {
     console.error(error);

@@ -8,6 +8,7 @@ import { mdiCommentOutline, mdiThumbUpOutline, mdiThumbUp } from "@mdi/js";
 import Comment from "@/components/Comment";
 import CommentForm from "@/components/CommentForm";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import Image from "next/image";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -49,6 +50,15 @@ export default function FullPost(post: Readonly<IPost>) {
         <div className="">
           <IcLink href={`/account/${post.username}`}>@{post.username}</IcLink>
           <IcTypography>{post.content}</IcTypography>
+          {post.image && (
+            <Image
+              src={post.image}
+              alt="post"
+              width={500}
+              height={500}
+              className="w-full h-96 object-cover rounded-lg"
+            />
+          )}
           <br />
           <IcTypography variant="caption">
             {dayjs(post.timestamp).fromNow()}

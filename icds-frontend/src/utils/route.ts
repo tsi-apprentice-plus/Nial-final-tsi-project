@@ -1,21 +1,22 @@
 import { Types } from "mongoose";
 import { env } from "process";
 
-const BASE_URL = env.API_URL ?? "https://n1al.com/api";
+const BASE_URL = env.API_URL ?? "http://localhost:3000/api";
 
 type CreatePost = {
   content: string;
+  image?: string;
 };
 type UpdatePost = {
   content?: string;
 };
 
 export const createPost = async (data: CreatePost) => {
-  const datas = { ...data };
+  console.log("data", data);
   const response = await fetch(`${BASE_URL}/posts`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(datas),
+    body: JSON.stringify(data),
   });
   return response.json();
 };

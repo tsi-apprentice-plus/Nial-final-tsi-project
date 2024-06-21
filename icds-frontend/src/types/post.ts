@@ -18,6 +18,7 @@ export type IPost = {
   comments: Comments[];
   likes: Likes[];
   _id: Types.ObjectId;
+  image?: string;
 };
 
 export type IPosts = IPost[];
