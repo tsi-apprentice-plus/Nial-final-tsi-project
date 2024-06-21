@@ -125,3 +125,7 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+docker/main.tf
+docker/.terraform.lock.hcl
+.env
