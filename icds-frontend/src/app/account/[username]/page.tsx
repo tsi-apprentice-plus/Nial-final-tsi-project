@@ -12,14 +12,12 @@ export default async function AccountPage({
   const username = params.username;
   const session = await getSession();
   const user = session?.user;
-  console.log("user", user);
 
   let showDeletePost = false;
   if (username === user?.nickname) {
     showDeletePost = true;
   }
   const usersPosts: IPosts = await getUsersPosts(username);
-  console.log(usersPosts);
   return (
     <div>
       <Suspense fallback={<div>Loading...</div>}>

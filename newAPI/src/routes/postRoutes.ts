@@ -45,7 +45,6 @@ postRouter.get(
   jwtCheck,
   async (req: Request, res: Response) => {
     let posts;
-    console.log(req);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });

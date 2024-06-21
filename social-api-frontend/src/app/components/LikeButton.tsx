@@ -18,8 +18,6 @@ export default function LikeButton({ post }: Readonly<Props>) {
   const [liked, setLiked] = useState<boolean>(userliked);
   const [likeCount, setLikeCount] = useState(post.likes.length);
 
-  console.log("liked is", liked);
-
   const onLikeClick = () => {
     const newliked = !liked;
     setLiked(newliked);

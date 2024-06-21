@@ -12,21 +12,16 @@ export default function CreatePost() {
   const [isImageUploading, setIsImageUploading] = useState(false);
 
   function handleImageUpload(event: React.ChangeEvent<HTMLInputElement>) {
-    console.log("event", event);
     const file = event.target.files?.[0];
     if (file) {
       setIsImageUploading(true);
       const reader = new FileReader();
       reader.onloadend = () => {
-        console.log("reader", reader);
         setImageBase64(reader.result as string);
-        console.log("imageBase64", imageBase64);
         setIsImageUploading(false);
       };
       reader.readAsDataURL(file);
     }
-    console.log("file", file);
-    console.log("imageBase64-2", imageBase64);
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {

@@ -73,11 +73,8 @@ export const POST = withApiAuthRequired(async function CreatePosts(
     }
 
     const timestamp = new Date();
-    console.log("image", image);
     const post = new Post({ content, username, timestamp, image });
-    console.log("post", post);
     const createdPost = await post.save();
-    console.log("createdPost", createdPost);
     return NextResponse.json(createdPost);
   } catch (error) {
     console.error(error);
