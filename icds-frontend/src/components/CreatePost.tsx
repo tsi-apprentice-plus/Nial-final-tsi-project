@@ -38,23 +38,28 @@ export default function CreatePost() {
   }
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto px-4 py-8">
       <div className="flex justify-center">
-        <form onSubmit={handleSubmit}>
-          <IcTextField
-            rows={3}
-            label="Create Post"
-            placeholder="Please enter…"
-            id="create-title"
-          />
+        <form onSubmit={handleSubmit} className="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg">
+          <div className="mb-4">
+            <label htmlFor="create-title" className="block text-sm font-medium text-gray-700">Create Post</label>
+            <textarea
+              id="create-title"
+              rows={3}
+              placeholder="Please enter…"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            ></textarea>
+          </div>
           <input
             type="file"
             accept="image/*"
             onChange={handleImageUpload}
+            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 mb-4"
           />
           <IcButton 
             type="submit" 
             disabled={isImageUploading}
+            className="w-full text-white py-2 px-4"
           >
             {isImageUploading ? "Uploading..." : "Submit"}
           </IcButton>
