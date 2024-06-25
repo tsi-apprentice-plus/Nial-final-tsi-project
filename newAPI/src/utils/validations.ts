@@ -22,3 +22,13 @@ export const usernameValidation = [
 export const _idValidation = param("_id")
   .isMongoId()
   .withMessage("Invalid _id format");
+
+export const authValidation = [
+  body("auth").isObject().withMessage("Auth object is required"),
+  body("auth.username")
+    .notEmpty()
+    .withMessage("Username is required in auth object"),
+  body("auth.password")
+    .notEmpty()
+    .withMessage("Password is required in auth object"),
+];
