@@ -1,6 +1,5 @@
 import { Types } from "mongoose";
-const BASE_URL = "http://localhost:3101";
-
+const BASE_URL = process.env.API_URL || "http://localhost:3101";
 type auth = {
   username: string;
   password: string;
