@@ -38,25 +38,15 @@ jobs:
         run: docker compose -f docker/docker-compose-action.yml up -d
       - name: wait for the container to start
         run: sleep 60
-      - name: get frontend logs
-        run: docker logs icds-frontend
-      - name: get db logs
-        run: docker logs db
-      - name: curl the container
-        run: curl http://localhost:3000
-      - name: get frontend logs
-        run: docker logs icds-frontend
-      - name: get db logs
-        run: docker logs db
-      # - name: Install Playwright Browsers
-      #   working-directory: icds-frontend
-      #   run: npx playwright install --with-deps
-      # - name: Run Playwright tests
-      #   working-directory: icds-frontend
-      #   run: npx playwright test
-      # - uses: actions/upload-artifact@v4
-      #   if: always()
-      #   with:
-      #     name: playwright-report
-      #     path: icds-frontend/playwright-report/
-      #     retention-days: 30
+      - name: Install Playwright Browsers
+        working-directory: icds-frontend
+        run: npx playwright install --with-deps
+      - name: Run Playwright tests
+        working-directory: icds-frontend
+        run: npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: icds-frontend/playwright-report/
+          retention-days: 30
