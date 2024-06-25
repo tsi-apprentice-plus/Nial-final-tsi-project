@@ -17,7 +17,7 @@ const postSchema = new Schema({
   timestamp: { type: Date, required: true },
   comments: { type: [commentSchema], default: [] },
   likes: { type: [likesSchema], default: [] },
-  image: { type: String, required: false},
+  image: { type: String, required: false },
 });
 
 const Post = models.Post || model("Post", postSchema);

@@ -48,13 +48,13 @@ export const GET = async function GetPosts(req: NextRequest) {
     console.error(error);
     return NextResponse.json(
       { message: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     ); // Ensure this line explicitly returns
   }
 };
 
 export const POST = withApiAuthRequired(async function CreatePosts(
-  req: NextRequest
+  req: NextRequest,
 ) {
   try {
     const res = new NextResponse();
@@ -80,7 +80,7 @@ export const POST = withApiAuthRequired(async function CreatePosts(
     console.error(error);
     return NextResponse.json(
       { message: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 });

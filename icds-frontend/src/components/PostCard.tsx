@@ -7,11 +7,7 @@ import Icon from "@mdi/react";
 import { Types } from "mongoose";
 import "./fixCard.css";
 
-import {
-  mdiCommentOutline,
-  mdiThumbUpOutline,
-  mdiThumbUp,
-} from "@mdi/js";
+import { mdiCommentOutline, mdiThumbUpOutline, mdiThumbUp } from "@mdi/js";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@auth0/nextjs-auth0/client";

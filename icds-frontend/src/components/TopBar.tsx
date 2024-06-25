@@ -76,7 +76,7 @@ export default function TopBar({ showSearch }: Readonly<Props>) {
         <IcNavigationItem
           slot="navigation"
           label="My Account"
-          href={ username ? `/account/${username}` : "/api/auth/login" }
+          href={username ? `/account/${username}` : "/api/auth/login"}
         />
       </IcTopNavigation>
     </div>
