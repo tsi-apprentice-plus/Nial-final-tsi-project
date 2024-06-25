@@ -36,10 +36,12 @@ jobs:
           AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
           AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
         run: docker compose -f docker/docker-compose-action.yml up -d
-      - name: get container logs
-        run: docker logs icds-frontend
       - name: wait for the container to start
         run: sleep 30
+      - name: get container logs
+        run: docker logs icds-frontend
+      - name: get container logs
+        run: docker logs db
       - name: curl the container
         run: curl http://localhost:3000
       - name: get container logs
