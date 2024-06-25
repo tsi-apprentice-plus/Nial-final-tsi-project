@@ -37,15 +37,17 @@ jobs:
           AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
         run: docker compose -f docker/docker-compose-action.yml up -d
       - name: wait for the container to start
-        run: sleep 30
-      - name: get container logs
+        run: sleep 60
+      - name: get frontend logs
         run: docker logs icds-frontend
-      - name: get container logs
+      - name: get db logs
         run: docker logs db
       - name: curl the container
         run: curl http://localhost:3000
-      - name: get container logs
+      - name: get frontend logs
         run: docker logs icds-frontend
+      - name: get db logs
+        run: docker logs db
       # - name: Install Playwright Browsers
       #   working-directory: icds-frontend
       #   run: npx playwright install --with-deps
