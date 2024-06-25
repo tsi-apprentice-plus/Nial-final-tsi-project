@@ -1,0 +1,70 @@
+services:
+  mui:
+    image: ghcr.io/nmcc1212/mui-frontend:latest
+    ports:
+      - "3001:3000"
+    container_name: mui-frontend
+    environment:
+      - API_URL=http://api:3101
+    depends_on:
+      - api
+  icds-frontend-v1:
+    image: ghcr.io/nmcc1212/icds-frontend:v2
+    ports:
+      - "3000:3000"
+    container_name: icds-frontend-v1
+    depends_on:
+      - api
+    environment:
+      - API_URL=http://api:3101
+  api:
+    image: ghcr.io/nmcc1212/social-api:v1
+    container_name: api
+    ports:
+      - "3101:3101"
+    depends_on:
+      - db
+    environment:
+      - MONGO_URI=mongodb://db-old:27018/socialAPI
+      - NODE_OPTIONS=--max_old_space_size=8192
+  db-old:
+    image: mongo
+    container_name: db-old
+    hostname: db-old
+    command: mongod --port 27018
+    ports:
+      - "27018:27018"
+    volumes:
+      - mongo-data-old:/data/db
+      - ./mongo/initv1.sh:/docker-entrypoint-initdb.d/init.sh:ro
+      - ./mongo/v1.socialAPI.posts.json:/docker-entrypoint-initdb.d/v1.socialAPI.posts.json:ro
+      - ./mongo/v1.socialAPI.users.json:/docker-entrypoint-initdb.d/v1.socialAPI.users.json:ro
+  db:
+    image: mongo
+    container_name: db
+    hostname: db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+      - ./mongo/init.sh:/docker-entrypoint-initdb.d/init.sh:ro
+      - ./mongo/socialAPI.posts.json:/docker-entrypoint-initdb.d/socialAPI.posts.json:ro
+  icds-frontend-v2:
+    image: ghcr.io/nmcc1212/icds-frontend:latest
+    ports:
+      - "3002:3000"
+    container_name: icds-frontend-v2
+    depends_on:
+      - api
+    environment:
+      - API_URL=${API_URL}
+      - MONGO_URI=${MONGO_URI}
+      - AUTH0_SECRET=${AUTH0_SECRET}
+      - AUTH0_BASE_URL=${AUTH0_BASE_URL}
+      - AUTH0_ISSUER_BASE_URL=${AUTH0_ISSUER_BASE_URL}
+      - AUTH0_CLIENT_ID=${AUTH0_CLIENT_ID}
+      - AUTH0_CLIENT_SECRET=${AUTH0_CLIENT_SECRET}
+
+volumes:
+  mongo-data:
+  mongo-data-old:
